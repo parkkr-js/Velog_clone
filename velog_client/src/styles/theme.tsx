@@ -8,6 +8,22 @@ const theme = {
     text1: '#ECECEC',
     text2: '#808080',
   },
+  fontSizes: {
+    header0: "50px",
+    header1: "45px",
+    subtitle: "30px",
+    body1: "16px",
+    body2: "14px",
+    button1: "18px",
+  },
+  fontWeights: {
+    header0: "800",
+    header1: "700",
+    subtitle1: "700",
+    body1: "700",
+    body2: "400",
+    button1: "700",
+  },
 };
 
 export default theme;

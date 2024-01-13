@@ -1,25 +1,32 @@
 import styled from "styled-components";
 import theme from "../styles/theme";
+import Template from "../components/templates";
+import LabTabs from "../components/molecules/LabTabs";
 
 export default function Home() {
   return (
-    <Container>
-      <Box>
-        <H1>Home</H1>
-        <Body>안녕하람? 난 지성이야</Body>
-      </Box>
-    </Container>
+    <>
+      <Template />
+      <Container>
+        <LabTabs />
+        <Box>
+          <H1>Home</H1>
+          <Body>안녕하람? 난 지성이야</Body>
+        </Box>
+      </Container>
+    </>
   );
 }
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  padding: 20px;
+  width: 100%;
   height: 100vh;
   align-items: center;
   justify-content: center;
-  background-color: ${theme.colors.background1};
+  box-sizing: border-box;
 `;
 
 const Box = styled.div`

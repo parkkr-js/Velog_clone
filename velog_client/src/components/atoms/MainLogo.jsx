@@ -16,8 +16,6 @@ export default MainLogo;
 const Logo = styled(VelogLogo)`
   fill: ${theme.colors.text1};
   width: 90px;
-  height: 90px;
-  margin: 0 auto;
-  display: block;
+  height: fit-content;
   cursor: pointer;
 `;
