@@ -9,6 +9,7 @@
     "@mui/lab": "^5.0.0-alpha.160",
     "@mui/material": "^5.15.4",
     "@mui/styled-engine-sc": "^6.0.0-alpha.12",
+    "@mui/styles": "^5.15.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

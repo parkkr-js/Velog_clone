@@ -2,6 +2,7 @@ import styled from "styled-components";
 import theme from "../styles/theme";
 import Template from "../components/templates";
 import LabTabs from "../components/molecules/LabTabs";
+import SelectBox from "../components/molecules/SelectBox";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <Template />
       <Container>
         <LabTabs />
+        <SelectBox />
         <Box>
           <H1>Home</H1>
           <Body>안녕하람? 난 지성이야</Body>
@@ -32,6 +34,7 @@ const Container = styled.div`
 const Box = styled.div`
   width: 500px;
   height: 500px;
+  margin-top: 20px;
   background-color: ${theme.colors.background2};
   border-radius: 10px;
   display: flex;
