@@ -7,6 +7,7 @@ const theme = {
     background2: '#1E1E1E',
     text1: '#ECECEC',
     text2: '#808080',
+    text3:'#888888',
   },
   fontSizes: {
     header0: "50px",
@@ -14,6 +15,7 @@ const theme = {
     subtitle: "30px",
     body1: "16px",
     body2: "14px",
+    body3: "13px",
     button1: "18px",
   },
   fontWeights: {

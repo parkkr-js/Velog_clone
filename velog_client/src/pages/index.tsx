@@ -2,8 +2,7 @@ import styled from "styled-components";
 import theme from "../styles/theme";
 import Template from "../components/templates";
 import DockBar from "../components/organisms/DockBar";
-import Card from "../components/molecules/Card";
-import imgData1 from '../assets/img/img_data1.png';
+import Cards from "../components/organisms/Cards";
 
 export default function Home() {
   return (
@@ -11,15 +10,7 @@ export default function Home() {
       <Template />
       <Container>
         <DockBar />
-        <Card
-          imageUrl={imgData1}
-          title="카드 제목"
-          subtitle="카드 부제목"
-          description="카드 설명"
-          likes={42}
-          author="박지성"
-          date="2024년 1월 3일"
-        />
+        <Cards />
       </Container>
     </>
   );

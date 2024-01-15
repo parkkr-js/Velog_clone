@@ -1,12 +1,14 @@
 import { atom } from "recoil";
 
-interface Card {
+export interface Card {
   id: number;
   title: string;
+  author: string;
   content: string;
   date: Date;
   commentCount: number;
   likeCount: number;
+  profileImageUrl: string;
   imageUrl: string;
 }
 
