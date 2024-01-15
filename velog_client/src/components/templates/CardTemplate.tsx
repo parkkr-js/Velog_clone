@@ -1,13 +1,6 @@
 import React from "react";
 import { Card as CardType } from "../../state/atoms/CardState";
-import {
-  Card as MuiCard,
-  CardContent,
-  CardActions,
-  Typography,
-  IconButton,
-} from "@mui/material";
-import { CardActionArea } from "@mui/material";
+import { Card as MuiCard, CardActions, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import styled from "styled-components";
 import theme from "../../styles/theme";
@@ -16,23 +9,27 @@ const CardTemplate: React.FC<{ card: CardType }> = ({ card }) => {
   return (
     <StyledCard>
       <CardImage src={card.imageUrl} />
-      <StyledCardContent>
+      <ContentDiv>
         <Title>{card.title}</Title>
         <Content>{card.content}</Content>
-      </StyledCardContent>
-      <StyledCardActions disableSpacing>
+      </ContentDiv>
+      <DateAndComment>
         <Date>{formatDate(card.date)}</Date>
+        <Dot>·</Dot>
         <CommentCount>{card.commentCount}개의 댓글</CommentCount>
-       
-        <div>
-          <LikeButton>
-            <ProfileImage src={card.profileImageUrl} />
-          <AuthorName>{card.author}</AuthorName>
-            <LikeCounter>{card.likeCount}</LikeCounter>
-            <FavoriteIcon />
-          </LikeButton>
-        </div>
-      </StyledCardActions>
+      </DateAndComment>
+      <Line />
+      <AuthorAndLikes>
+        <Div1>
+          <ProfileImage src={card.profileImageUrl} alt={card.author} />
+          <By>by</By>
+          <Author>{card.author}</Author>
+        </Div1>
+        <Div2>
+          <Like />
+          <LikeCounter>{card.likeCount}</LikeCounter>
+        </Div2>
+      </AuthorAndLikes>
     </StyledCard>
   );
 };
@@ -46,13 +43,31 @@ function formatDate(date: Date) {
 
   return `${year}년 ${month.toString().padStart(2, "0")}월 ${day
     .toString()
-    .padStart(2, "0")}일·`;
+    .padStart(2, "0")}일`;
 }
 
 const StyledCard = styled(MuiCard)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: ${theme.colors.background2};
   margin: 23px;
-  width: 350px;
+  width: 360px;
+  height: 400px;
+`;
+
+const Div1 = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+`;
+
+const Div2 = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
 `;
 
 const Title = styled(Typography)`
@@ -86,44 +101,76 @@ const CommentCount = styled(Typography)`
 `;
 
 const ProfileImage = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
 `;
 
-const CardAuthor = styled(Typography)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 0.5em;
+const Dot = styled.span`
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+  color: ${theme.colors.text2};
 `;
 
-const StyledCardContent = styled(CardContent)`
-  padding: 14px;
+const Line = styled.hr`
+  width: 100%;
+  border: 1px solid #2a2a2a;
+`;
+
+const DateAndComment = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 12px 0 12px;
+`;
+
+const AuthorAndLikes = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+  padding: 0 12px 12px 12px;
+`;
+
+const Author = styled(Typography)`
+  font-size: ${theme.fontSizes.body3};
   color: ${theme.colors.text1};
-  /* background-color: red; */
+`;
+
+const ContentDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 25%;
+  padding: 12px;
+  gap: 8px;
+  color: ${theme.colors.text1};
 `;
 
 const StyledCardActions = styled(CardActions)`
   padding: 0 16px 16px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
 `;
 
-const AuthorName = styled(Typography)`
-  font-size: 0.875rem;
+const By = styled(Typography)`
+  font-size: ${theme.fontSizes.body2};
+  color: ${theme.colors.text2};
 `;
-
-const LikeButton = styled(IconButton)`
-  color: #ffffff;
+const Like = styled(FavoriteIcon)`
+  color: ${theme.colors.text1};
+  font-size: ${theme.fontSizes.body1};
 `;
 
 const LikeCounter = styled(Typography)`
-  font-size: ${theme.fontSizes.body3};
-  color: ${theme.colors.text2};
+  font-size: ${theme.fontSizes.body2};
+  color: ${theme.colors.text1};
+  font-weight: ${theme.fontWeights.body2};
 `;
 const CardImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 45%;
 `;
