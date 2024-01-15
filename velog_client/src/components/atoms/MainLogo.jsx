@@ -1,4 +1,4 @@
-import { ReactComponent as VelogLogo } from "../../img/velog_logo.svg";
+import { ReactComponent as VelogLogo } from "../../assets/img/velog_logo.svg";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../styles/theme";
