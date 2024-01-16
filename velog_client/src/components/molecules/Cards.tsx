@@ -67,13 +67,26 @@ const Cards: FC = () => {
 
 export default Cards;
 
-
-
 const CardGrid = styled.div`
   display: grid;
   justify-content: space-between;
   align-content: space-between;
   grid-gap: 45px;
-  grid-template-columns: repeat(5, 1fr); 
-`;
+  grid-template-columns: repeat(5, 1fr);
 
+  @media (max-width: 1600px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;

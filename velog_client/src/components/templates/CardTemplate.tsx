@@ -49,10 +49,16 @@ function formatDate(date: Date) {
 const StyledCard = styled(MuiCard)`
   display: flex;
   flex-direction: column;
+  height: 430px;
   justify-content: space-between;
   background-color: ${theme.colors.background2};
-  /* width: 350px; */
-  /* height: 400px; */
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+  &:hover {
+    cursor: pointer;  
+    box-shadow: 0px 4px 20px ${theme.colors.secondary};
+    transform: translateY(-10px);
+  }
 `;
 
 const Div1 = styled.div`
