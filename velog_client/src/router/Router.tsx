@@ -11,7 +11,7 @@ function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/trending/week" element={<Home />} />
         <Route path="/recent" element={<Home />} />
-
+        <Route path="/feed" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

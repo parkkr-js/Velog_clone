@@ -2,7 +2,7 @@ import styled from "styled-components";
 import theme from "../styles/theme";
 import Template from "../components/templates";
 import DockBar from "../components/organisms/DockBar";
-import Cards from "../components/organisms/Cards";
+import Cards from "../components/molecules/Cards";
 
 export default function Home() {
   return (

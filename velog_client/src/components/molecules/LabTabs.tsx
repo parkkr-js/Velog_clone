@@ -10,26 +10,33 @@ import styled from "styled-components";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
-import Cards from "../organisms/Cards";
-import { useRecoilState } from 'recoil';
-import { tabPanelState } from '../../state/atoms/tabPanelState';
+import Cards from "./Cards";
+import { useRecoilState } from "recoil";
+import { tabPanelState } from "../../state/atoms/tabPanelState";
+import { useNavigate } from "react-router-dom";
 
 const LabTabs = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState("1");
   const [selectedTab, setSelectedTab] = useRecoilState(tabPanelState);
 
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
-    setSelectedTab(newValue); 
-    console.log(selectedTab);
+    setSelectedTab(newValue);
+    if (newValue === "1") {
+      navigate("/trending/week"); 
+    } else if (newValue === "2") {
+      navigate("/recent"); 
+    } else if (newValue === "3") {
+      navigate("/feed"); 
+    }
   };
 
   interface TabLabelProps {
     icon: ReactNode;
     label: string;
   }
-  
+
   const TabLabel: React.FC<TabLabelProps> = ({ icon, label }) => (
     <TabLabelContainer>
       {icon}
@@ -56,10 +63,11 @@ const LabTabs = () => {
             />
           </StyledTabList>
         </StyledBox>
-        <TabPanel value="1"><Cards/></TabPanel>
-        <TabPanel value="2"><Cards/></TabPanel>
-        <TabPanel value="3">피드</TabPanel>
+        <TabPanel value="1" />
+        <TabPanel value="2" />
+        <TabPanel value="3" />
       </TabContext>
+      <Cards />
     </StyledBox>
   );
 };
