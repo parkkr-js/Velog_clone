@@ -1,12 +1,22 @@
 import { ReactComponent as VelogLogo } from "../../assets/img/velog_logo.svg";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../styles/theme";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { tabPanelState } from "../../state/atoms/tabPanelState";
+import { useEffect } from "react";
 
 const MainLogo = () => {
+  const navigate = useNavigate();
+  const [, setSelectedTab] = useRecoilState(tabPanelState);
+
+  const handleLogoClick = () => {
+    navigate("/"); 
+    setSelectedTab("1");
+  };
   return (
     <>
-      <Logo src={VelogLogo} alt="velog logo" />
+      <Logo src={VelogLogo} onClick={handleLogoClick} alt="velog logo" />
     </>
   );
 };

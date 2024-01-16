@@ -14,6 +14,7 @@ import Cards from "./Cards";
 import { useRecoilState } from "recoil";
 import { tabPanelState } from "../../state/atoms/tabPanelState";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const LabTabs = () => {
   const navigate = useNavigate();
@@ -24,11 +25,11 @@ const LabTabs = () => {
     setValue(newValue);
     setSelectedTab(newValue);
     if (newValue === "1") {
-      navigate("/trending/week"); 
+      navigate("/trending/week");
     } else if (newValue === "2") {
-      navigate("/recent"); 
+      navigate("/recent");
     } else if (newValue === "3") {
-      navigate("/feed"); 
+      navigate("/feed");
     }
   };
 
@@ -37,6 +38,15 @@ const LabTabs = () => {
     label: string;
   }
 
+  useEffect(() => {
+    if (selectedTab === "1") {
+      setValue("1");
+    } else if (selectedTab === "2") {
+      setValue("2");
+    } else if (selectedTab === "3") {
+      setValue("3");
+    }
+  }, [selectedTab]);
   const TabLabel: React.FC<TabLabelProps> = ({ icon, label }) => (
     <TabLabelContainer>
       {icon}
@@ -67,7 +77,6 @@ const LabTabs = () => {
         <TabPanel value="2" />
         <TabPanel value="3" />
       </TabContext>
-      <Cards />
     </StyledBox>
   );
 };

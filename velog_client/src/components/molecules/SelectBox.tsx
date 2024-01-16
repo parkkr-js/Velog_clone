@@ -74,7 +74,7 @@ const StyledMenuItem = styled(MenuItem)`
   font-size: ${theme.fontSizes.button1};
   font-weight: ${theme.fontWeights.button1};
   color: ${theme.colors.text1};
-  border-bottom: 1px solid ${theme.colors.secondary}; 
+  border-bottom: 1px solid ${theme.colors.secondary};
   &:first-child {
     padding-top: 7px;
   }
@@ -87,5 +87,3 @@ const StyledMenuItem = styled(MenuItem)`
     background-color: transparent;
   }
 `;
-
-

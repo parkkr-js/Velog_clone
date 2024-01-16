@@ -51,7 +51,7 @@ const StyledCard = styled(MuiCard)`
   flex-direction: column;
   justify-content: space-between;
   background-color: ${theme.colors.background2};
-  width: 340px;
+  width: 350px;
   height: 400px;
 `;
 
