@@ -10,7 +10,6 @@ export default function Home() {
       <Template />
       <Container>
         <DockBar />
-        <Cards />
       </Container>
     </>
   );

@@ -9,6 +9,9 @@ function Router() {
      <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/trending/week" element={<Home />} />
+        <Route path="/recent" element={<Home />} />
+
       </Routes>
     </BrowserRouter>
   );

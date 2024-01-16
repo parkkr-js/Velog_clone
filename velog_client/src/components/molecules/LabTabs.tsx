@@ -10,12 +10,19 @@ import styled from "styled-components";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
+import Cards from "../organisms/Cards";
+import { useRecoilState } from 'recoil';
+import { tabPanelState } from '../../state/atoms/tabPanelState';
 
 const LabTabs = () => {
   const [value, setValue] = useState("1");
+  const [selectedTab, setSelectedTab] = useRecoilState(tabPanelState);
+
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    setSelectedTab(newValue); 
+    console.log(selectedTab);
   };
 
   interface TabLabelProps {
@@ -49,8 +56,8 @@ const LabTabs = () => {
             />
           </StyledTabList>
         </StyledBox>
-        <TabPanel value="1">트렌딩</TabPanel>
-        <TabPanel value="2">최신</TabPanel>
+        <TabPanel value="1"><Cards/></TabPanel>
+        <TabPanel value="2"><Cards/></TabPanel>
         <TabPanel value="3">피드</TabPanel>
       </TabContext>
     </StyledBox>

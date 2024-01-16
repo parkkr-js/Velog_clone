@@ -1,5 +1,5 @@
 import React from "react";
-import { Card as CardType } from "../../state/atoms/CardState";
+import { Card as CardType } from "../../state/atoms/cardState";
 import { Card as MuiCard, CardActions, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import styled from "styled-components";
@@ -51,8 +51,7 @@ const StyledCard = styled(MuiCard)`
   flex-direction: column;
   justify-content: space-between;
   background-color: ${theme.colors.background2};
-  margin: 23px;
-  width: 360px;
+  width: 340px;
   height: 400px;
 `;
 

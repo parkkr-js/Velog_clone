@@ -1,4 +1,4 @@
-import { Card } from "../../state/atoms/CardState";
+import { Card } from "../../state/atoms/cardState";
 
 export const CardData: Card[] = [
   {
@@ -28,5 +28,285 @@ export const CardData: Card[] = [
       "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=600",
     imageUrl:
       "https://images.unsplash.com/photo-1617854818583-09e7f077a156?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXJsfGVufDB8fDB8fHww",
+  },
+  {
+    id: 3,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-03"),
+    commentCount: 12,
+    likeCount: 20,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 4,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-11"),
+    commentCount: 122,
+    likeCount: 320,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 5,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-03"),
+    commentCount: 12,
+    likeCount: 20,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 6,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-11"),
+    commentCount: 122,
+    likeCount: 320,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 7,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-03"),
+    commentCount: 12,
+    likeCount: 20,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 8,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-11"),
+    commentCount: 122,
+    likeCount: 320,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 9,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-03"),
+    commentCount: 12,
+    likeCount: 20,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 10,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-11"),
+    commentCount: 122,
+    likeCount: 320,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 11,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-11"),
+    commentCount: 12,
+    likeCount: 20,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 12,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-12"),
+    commentCount: 122,
+    likeCount: 30,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 13,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2023-12-03"),
+    commentCount: 12,
+    likeCount: 202,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 14,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-15"),
+    commentCount: 122,
+    likeCount: 220,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 15,
+    title: "집에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-01"),
+    commentCount: 12,
+    likeCount: 50,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 16,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-07"),
+    commentCount: 122,
+    likeCount: 30,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 17,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2023-12-15"),
+    commentCount: 12,
+    likeCount: 201,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 18,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-08"),
+    commentCount: 122,
+    likeCount: 323,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 19,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-16"),
+    commentCount: 12,
+    likeCount: 20,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 20,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-09"),
+    commentCount: 122,
+    likeCount: 320,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
+  },
+  {
+    id: 21,
+    title: "React에서의 상태 관리",
+    author: "박한동",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-02"),
+    commentCount: 12,
+    likeCount: 20,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
+  },
+  {
+    id: 22,
+    title: "React에서의 상태 관리",
+    author: "박지성",
+    content:
+      "React에서는 상태 관리를 위해 Redux, MobX, Context API 등 다양한 방법을 사용할 수 있습니다. 이번 글에서는 React에서 상태 관리를 하는 방법에 대해 알아보고자 합니다.",
+    date: new Date("2024-01-11"),
+    commentCount: 122,
+    likeCount: 320,
+    profileImageUrl:
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+    imageUrl:
+      "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
   },
 ];
