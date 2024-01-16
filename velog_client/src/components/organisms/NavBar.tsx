@@ -23,7 +23,7 @@ export default NavBar;
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 10px 40px 10px 40px;
+  padding: 10px 40px 20px 40px;
   width: 100%;
   background-color: ${theme.colors.background1};
   align-items: center;
@@ -34,7 +34,6 @@ const Container = styled.div`
 const Box = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: ${theme.colors.background1};
   align-items: center;
   justify-content: space-between; 
 `;

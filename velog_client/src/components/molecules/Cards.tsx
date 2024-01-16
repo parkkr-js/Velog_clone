@@ -17,7 +17,7 @@ const Cards: FC = () => {
   const [selectedTab] = useRecoilState(tabPanelState);
 
   const sortCards = useCallback(() => {
-    let sortedCards = [...InitialCardData]; 
+    let sortedCards = [...InitialCardData];
     if (selectedTab === "1") {
       sortedCards.sort((a, b) => b.likeCount - a.likeCount);
     } else if (selectedTab === "2") {
@@ -67,20 +67,13 @@ const Cards: FC = () => {
 
 export default Cards;
 
+
+
 const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 40px;
-
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: 900px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
+  justify-content: space-between;
+  align-content: space-between;
+  grid-gap: 45px;
+  grid-template-columns: repeat(5, 1fr); 
 `;
+
