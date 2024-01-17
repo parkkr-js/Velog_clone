@@ -1,14 +1,14 @@
+import React from "react";
 import styled from "styled-components";
 import theme from "../../styles/theme";
 
-const WriteBtn = () => {
-  return (
-    <>
-      <Button>로그인</Button>
-    </>
-  );
-};
+interface WriteBtnProps {
+  onClick: () => void; 
+}
 
+const WriteBtn: React.FC<WriteBtnProps> = ({ onClick }) => {
+  return <Button onClick={onClick}>새 글 작성</Button>;
+};
 export default WriteBtn;
 
 const Button = styled.button`

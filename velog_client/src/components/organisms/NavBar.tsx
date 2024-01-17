@@ -4,15 +4,21 @@ import DarkModeBtn from "../atoms/DarkModeBtn";
 import WriteBtn from "../atoms/WriteBtn";
 import SearchBtn from "../atoms/SearchBtn";
 import MainLogo from "../atoms/MainLogo";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const handleWriteBtn = () => {
+    navigate("/write");
+  };
+
   return (
     <Container>
       <MainLogo />
       <Box>
         <DarkModeBtn />
         <SearchBtn />
-        <WriteBtn />
+        <WriteBtn onClick={handleWriteBtn}/>
       </Box>
     </Container>
   );

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "-": "^0.0.1",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.4",
@@ -13,17 +14,30 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@toast-ui/editor": "^3.2.2",
+    "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
+    "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
+    "@toast-ui/react-editor": "^3.2.3",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.70",
+    "@types/node": "^16.18.71",
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
     "@types/react-router-dom": "^5.3.3",
+    "@types/react-syntax-highlighter": "^15.5.11",
+    "@uiw/react-md-editor": "^4.0.3",
+    "mui-markdown": "^1.1.13",
+    "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.49.3",
     "react-intersection-observer": "^9.5.3",
+    "react-markdown": "^9.0.1",
     "react-router-dom": "^6.21.2",
     "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
     "recoil": "^0.7.7",
+    "remark-gfm": "^4.0.0",
+    "save": "^2.9.0",
     "styled-components": "^6.1.8",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -53,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@types/markdown-to-jsx": "^7.0.1",
     "@types/styled-components": "^5.1.34"
   }
 }

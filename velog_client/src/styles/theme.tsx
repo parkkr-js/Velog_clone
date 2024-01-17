@@ -5,6 +5,7 @@ const theme = {
     secondary: '#6c757d',
     background1: '#121212',
     background2: '#1E1E1E',
+    background3: '#2E2E2E',
     text1: '#ECECEC',
     text2: '#808080',
     text3:'#888888',

@@ -13,3 +13,5 @@ declare module "*.svg" {
     const src: string;
     export default src;
   }
+
+  declare module '@toast-ui/react-editor';

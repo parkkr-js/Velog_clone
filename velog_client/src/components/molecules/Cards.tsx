@@ -72,7 +72,7 @@ const CardGrid = styled.div`
   justify-content: space-between;
   align-content: space-between;
   grid-gap: 45px;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   @media (max-width: 1600px) {
     grid-template-columns: repeat(4, 1fr);
