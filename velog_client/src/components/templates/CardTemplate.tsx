@@ -49,7 +49,7 @@ function formatDate(date: Date) {
 const StyledCard = styled(MuiCard)`
   display: flex;
   flex-direction: column;
-  height: 430px;
+  height: 375px;
   justify-content: space-between;
   background-color: ${theme.colors.background2};
   transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;

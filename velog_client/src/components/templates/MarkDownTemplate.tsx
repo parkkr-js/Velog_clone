@@ -3,17 +3,18 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { TextField } from "@mui/material";
 import theme from "../../styles/theme";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useState } from "react";
 
 interface IFormInput {
   title: string;
 }
 
 const MarkdownEditor: React.FC = () => {
+  const [title, setTitle] = useState("");
   const { control, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -22,57 +23,32 @@ const MarkdownEditor: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          name="title"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              sx={{
-                width: "50%",
-                backgroundColor: theme.colors.background1,
-                "& .MuiInputBase-input": {
-                  color: theme.colors.text1,
-                  fontWeight: "900",
-                  fontSize: "40px",
-                  "::placeholder": {
-                    color: "white",
-                    opacity: 0.6,
-                  },
-                },
-              }}
-              InputProps={{
-                disableUnderline: true,
-              }}
-              {...field}
-              hiddenLabel
-              id="outlined-multiline-flexible"
-              variant="filled"
-              placeholder="제목을 입력하세요"
-              multiline
-              minRows={1}
-            />
-          )}
-        />
-      </form>
-
-      <Editor
-        height="100vh"
-        placeholder="당신의 이야기를 적어보세요..."
-        previewStyle={window.innerWidth > 1000 ? "vertical" : "tab"}
-        initialEditType="markdown"
-        hideModeSwitch={true}
-        toolbarItems={[
-          ["heading", "bold", "italic", "strike"],
-          ["hr", "quote"],
-          ["table", "image", "link"],
-          ["code", "codeblock"],
-          ["scrollSync"],
-        ]}
-        theme="dark"
-        usageStatistics={false}
+      <Controller
+        name="title"
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <Editor
+            height="100%"
+            initialValue="# 제목을 입력하세요" 
+            // placeholder="당신의 이야기를 적어보세요..."
+            previewStyle={window.innerWidth > 1000 ? "vertical" : "tab"}
+            initialEditType="markdown"
+            hideModeSwitch={true}
+            toolbarItems={[
+              ["heading", "bold", "italic", "strike"],
+              ["hr", "quote"],
+              ["table", "image", "link"],
+              ["code", "codeblock"],
+              ["scrollSync"],
+            ]}
+            theme="dark"
+            usageStatistics={false}
+            {...field}
+          />
+        )}
       />
+
       <NavBarContainer>
         <StyledOutBtn variant="contained" startIcon={<ArrowBackIcon />}>
           나가기
@@ -89,21 +65,23 @@ const MarkdownEditor: React.FC = () => {
 export default MarkdownEditor;
 
 const Container = styled.div`
-  box-sizing: border-box;
   width: 100%;
   height: 100vh;
   display: flex;
+  background-color: ${theme.colors.background2};
   flex-direction: column;
+  box-sizing: border-box;
   padding: 30px 25px;
 `;
 
 const NavBarContainer = styled.div`
   display: flex;
   align-items: center;
+  box-sizing: border-box;
   justify-content: space-between;
   background-color: ${theme.colors.background3};
   padding: 10px 20px;
-  width: 50%;
+  width: 100%;
 `;
 
 const StyledOutBtn = styled(Button)`
@@ -161,3 +139,45 @@ const Box = styled.div`
   justify-content: center;
   gap: 10px;
 `;
+
+
+
+/**
+ * ![image](https://uicdn.toast.com/toastui/img/tui-editor-bi.png)
+
+# Awesome Editor!
+
+It has been _released as opensource in 2018_ and has ~~continually~~ evolved to **receive 10k GitHub ⭐️ Stars**.
+
+## Create Instance
+
+You can create an instance with the following code and use `getHtml()` and `getMarkdown()` of the [Editor](https://github.com/nhn/tui.editor).
+
+```js
+const editor = new Editor(options);
+```
+
+> See the table below for default options
+> > More API information can be found in the document
+
+| name | type | description |
+| --- | --- | --- |
+| el | `HTMLElement` | container element |
+
+## Features
+
+* CommonMark + GFM Specifications
+   * Live Preview
+   * Scroll Sync
+   * Auto Indent
+   * Syntax Highlight
+        1. Markdown
+        2. Preview
+
+## Support Wrappers
+
+> * Wrappers
+>    1. [x] React
+>    2. [x] Vue
+>    3. [ ] Ember
+ */

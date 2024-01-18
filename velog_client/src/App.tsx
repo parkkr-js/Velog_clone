@@ -10,7 +10,7 @@ function App() {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <RecoilRoot>
-          {/* <GlobalStyle /> */}
+          <GlobalStyle />
           <Router />
         </RecoilRoot>
       </ThemeProvider>
