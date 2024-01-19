@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
+import TagsEditor from "../atoms/TagsEditor";
 
 interface IFormInput {
   title: string;
@@ -17,6 +18,9 @@ const MarkdownEditor: React.FC = () => {
   const [title, setTitle] = useState("");
   const { control, handleSubmit } = useForm<IFormInput>();
 
+  const goBack = () => {
+    window.history.back();
+  };
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     console.log(data);
   };
@@ -30,7 +34,7 @@ const MarkdownEditor: React.FC = () => {
         render={({ field }) => (
           <Editor
             height="100%"
-            initialValue="# 제목을 입력하세요" 
+            initialValue="# 제목을 입력하세요"
             // placeholder="당신의 이야기를 적어보세요..."
             previewStyle={window.innerWidth > 1000 ? "vertical" : "tab"}
             initialEditType="markdown"
@@ -48,9 +52,13 @@ const MarkdownEditor: React.FC = () => {
           />
         )}
       />
-
+      <TagsEditor />
       <NavBarContainer>
-        <StyledOutBtn variant="contained" startIcon={<ArrowBackIcon />}>
+        <StyledOutBtn
+          onClick={goBack}
+          variant="contained"
+          startIcon={<ArrowBackIcon />}
+        >
           나가기
         </StyledOutBtn>
         <Box>
@@ -80,8 +88,10 @@ const NavBarContainer = styled.div`
   box-sizing: border-box;
   justify-content: space-between;
   background-color: ${theme.colors.background3};
-  padding: 10px 20px;
+  padding: 8px 18px;
+  height: fit-content;
   width: 100%;
+  border-radius: 0 0px 8px 8px;
 `;
 
 const StyledOutBtn = styled(Button)`
@@ -92,7 +102,7 @@ const StyledOutBtn = styled(Button)`
     font-size: ${theme.fontSizes.button1};
     background-color: ${theme.colors.background3};
     border-radius: 5px;
-    padding: 8px 16px;
+    padding: 5px 13px;
     text-transform: none;
     &:hover {
       background-color: #434343;
@@ -108,7 +118,7 @@ const StyledPostBtn = styled(Button)`
     font-size: ${theme.fontSizes.button1};
     background-color: ${theme.colors.primary1};
     border-radius: 5px;
-    padding: 8px 16px;
+    padding: 5px 13px;
     text-transform: none;
     &:hover {
       background-color: ${theme.colors.primary2};
@@ -124,7 +134,7 @@ const StyledSaveBtn = styled(Button)`
     font-size: ${theme.fontSizes.button1};
     background-color: ${theme.colors.background3};
     border-radius: 5px;
-    padding: 8px 16px;
+    padding: 5px 13px;
     text-transform: none;
     &:hover {
       background-color: #434343;
@@ -138,9 +148,10 @@ const Box = styled.div`
   align-items: center;
   justify-content: center;
   gap: 10px;
+  border: 1px solid ${theme.colors.background3};
+  box-sizing: border-box;
+  border-radius: 50px;
 `;
-
-
 
 /**
  * ![image](https://uicdn.toast.com/toastui/img/tui-editor-bi.png)
