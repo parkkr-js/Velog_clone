@@ -20,7 +20,7 @@ const ProfileBtn: React.FC = () => {
   return (
     <Box>
       <StyledIconButton onClick={handleClick}>
-        <StyledAvatar src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600" />
+        <StyledAvatar src="https://velog.velcdn.com/images/live_in_truth/profile/03d01656-a3c6-440c-822e-60269b8e102a/social_profile.jpeg" />
         <StyledArrowDropDownIcon />
       </StyledIconButton>
       <StyledMenu

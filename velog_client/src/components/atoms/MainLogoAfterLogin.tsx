@@ -12,17 +12,16 @@ const MainLogoAfterLogin: React.FC = () => {
 
   const handleLogoClick = () => {
     setIsHome(true);
-    navigate("/"); 
+    navigate("/");
   };
 
-  const handleTextClick = (event: React.MouseEvent<SVGTextElement>) => {
-    event.stopPropagation(); 
-    navigate("/posts"); 
+  const handleTextClick = () => {
+    navigate("/posts");
   };
 
   return (
-    <Div >
-      <Logo onClick={handleLogoClick}/>
+    <Div>
+      <Logo onClick={handleLogoClick} />
       <Text onClick={handleTextClick}>live_in_truth.log</Text>
     </Div>
   );

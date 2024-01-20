@@ -56,8 +56,8 @@ const StyledBox = styled(Box)`
     display: flex;
     justify-content: center;
     background-color: ${theme.colors.background2};
-    width: 140px;
-    height: 50px;
+    width: 120px;
+    height: 42px;
     border-radius: 5px;
     .MuiOutlinedInput-notchedOutline {
       border-color: transparent;
@@ -77,20 +77,20 @@ const StyledSelect = styled(Select)`
 `;
 
 const StyledMenuItem = styled(MenuItem)`
-  width: 200px;
-  padding-bottom: 15px;
-  padding-top: 15px;
+  width: 180px;
+  padding-bottom: 12px;
+  padding-top: 12px;
   font-size: ${theme.fontSizes.body1};
   font-weight: ${theme.fontWeights.button1};
   color: ${theme.colors.text1};
-  border-bottom: 1px solid ${theme.colors.secondary};
+  border-bottom: 1px solid ${theme.colors.background3};
 
   &:first-child {
-    padding-top: 7px;
+    padding-top: 5px;
   }
   &:last-child {
     border-bottom: none;
-    padding-bottom: 7px;
+    padding-bottom: 5px;
   }
   &.Mui-selected {
     color: ${theme.colors.primary1};

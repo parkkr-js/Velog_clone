@@ -11,10 +11,10 @@ export const CardData: Card[] = [
     commentCount: 10,
     likeCount: 20,
     profileImageUrl:
-      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://velog.velcdn.com/images/live_in_truth/profile/03d01656-a3c6-440c-822e-60269b8e102a/social_profile.jpeg",
     imageUrl:
       "https://plus.unsplash.com/premium_photo-1669324357471-e33e71e3f3d8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXJsfGVufDB8fDB8fHww",
-    tags: ["#javascript", "#react", "#typescript"],
+    tags: ["#react", "#typescript", "#SpringBoot"],
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ export const CardData: Card[] = [
       "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=600",
     imageUrl:
       "https://images.unsplash.com/photo-1617854818583-09e7f077a156?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXJsfGVufDB8fDB8fHww",
-    tags: ["#javascript", "#react", "#typescript"],
+    tags: ["#javascript", "#Mui", "#typescript", "#SpringBoot", "#AWS" ],
   },
   {
     id: 3,
@@ -44,7 +44,7 @@ export const CardData: Card[] = [
       "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
     imageUrl:
       "https://velog.velcdn.com/images/greencloud/post/4ad0de67-bbaa-46af-8630-0f0d947791b5/image.GIF",
-    tags: ["#javascript", "#react", "#typescript"],
+    tags: ["#javascript", "#react", "#typescript", "#TypeScript", "#AWS"],
   },
   {
     id: 4,
@@ -59,7 +59,7 @@ export const CardData: Card[] = [
       "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
     imageUrl:
       "https://velog.velcdn.com/images/developerjhp/post/84dd735e-0032-4fa1-b632-397a5e6ec826/image.gif",
-    tags: ["#javascript", "#react", "#typescript"],
+    tags: ["#javascript", "#react", "#typescript", "#TypeScript", "#Cloud", "#SQL"],
   },
   {
     id: 5,
