@@ -10,6 +10,7 @@ export interface Card {
   likeCount: number;
   profileImageUrl: string;
   imageUrl: string;
+  tags: string[];
 }
 
 export const cardState = atom<Card[]>({
