@@ -4,15 +4,17 @@ import theme from "../../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { tabPanelState } from "../../state/atoms/tabPanelState";
-import { useEffect } from "react";
+import { homeState } from "../../state/atoms/homeState";
 
 const MainLogo = () => {
   const navigate = useNavigate();
   const [, setSelectedTab] = useRecoilState(tabPanelState);
+  const [, setHomeState] = useRecoilState(homeState);
 
   const handleLogoClick = () => {
     navigate("/"); 
     setSelectedTab("1");
+    setHomeState(true);
   };
   return (
     <>

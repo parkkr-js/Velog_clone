@@ -20,9 +20,18 @@ const SelectBox = () => {
       <FormControl>
         <StyledSelect
           MenuProps={{
+            anchorOrigin: {
+              vertical: 'bottom',
+              horizontal: 'right',
+            },
+            transformOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
             PaperProps: {
               style: {
                 backgroundColor: theme.colors.background2,
+              
               },
             },
           }}
@@ -42,6 +51,7 @@ const SelectBox = () => {
 export default SelectBox;
 
 const StyledBox = styled(Box)`
+
   .MuiFormControl-root {
     display: flex;
     justify-content: center;
@@ -57,24 +67,24 @@ const StyledBox = styled(Box)`
 
 const StyledSelect = styled(Select)`
   .MuiSelect-select {
-    font-size: ${theme.fontSizes.button1};
+    font-size: ${theme.fontSizes.body1};
     font-weight: ${theme.fontWeights.button1};
     color: ${theme.colors.text1};
   }
   .MuiSelect-icon {
-    font-size: 35px;
     color: ${theme.colors.text1};
   }
 `;
 
 const StyledMenuItem = styled(MenuItem)`
-  width: 220px;
+  width: 200px;
   padding-bottom: 15px;
   padding-top: 15px;
-  font-size: ${theme.fontSizes.button1};
+  font-size: ${theme.fontSizes.body1};
   font-weight: ${theme.fontWeights.button1};
   color: ${theme.colors.text1};
   border-bottom: 1px solid ${theme.colors.secondary};
+
   &:first-child {
     padding-top: 7px;
   }

@@ -5,20 +5,32 @@ import WriteBtn from "../atoms/WriteBtn";
 import SearchBtn from "../atoms/SearchBtn";
 import MainLogo from "../atoms/MainLogo";
 import { useNavigate } from "react-router-dom";
+import ProfileBtn from "../atoms/ProfileBtn";
+import { homeState } from "../../state/atoms/homeState";
+import { useRecoilState } from "recoil";
+import { set } from "react-hook-form";
+import MainLogoAfterLogin from "../atoms/MainLogoAfterLogin";
 
 const NavBar = () => {
+  const [isHome, setIsHome] = useRecoilState(homeState);
   const navigate = useNavigate();
   const handleWriteBtn = () => {
+    setIsHome(false);
     navigate("/write");
   };
 
   return (
     <Container>
-      <MainLogo />
+      {isHome ? (
+        <MainLogo />
+      ) : (
+        <MainLogoAfterLogin />
+      )}
       <Box>
         <DarkModeBtn />
         <SearchBtn />
-        <WriteBtn onClick={handleWriteBtn}/>
+        <WriteBtn onClick={handleWriteBtn} />
+        <ProfileBtn />
       </Box>
     </Container>
   );
@@ -41,5 +53,6 @@ const Box = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between; 
+  gap: 5px;
+  justify-content: space-between;
 `;
