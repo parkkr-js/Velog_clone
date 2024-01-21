@@ -11,12 +11,18 @@ import styled from "styled-components";
 import { Card as CardType } from "../../state/atoms/cardState";
 import theme from "../../styles/theme";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useNavigate } from "react-router-dom";
+import { userState } from "../../state/atoms/userState";
+import { useRecoilValue } from "recoil";
 
 type CardProps = {
   card: CardType;
 };
 
 const MyVelogCard: React.FC<CardProps> = ({ card }) => {
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
+
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -25,9 +31,13 @@ const MyVelogCard: React.FC<CardProps> = ({ card }) => {
     };
     return date.toLocaleDateString("ko-KR", options);
   };
+  const handleCardClick = () => {
+    navigate(`/@${user.blogName}/${card.id}`);
+  };
+  
 
   return (
-    <StyledCard>
+    <StyledCard onClick={handleCardClick}>
       <CardMedia image={card.imageUrl} title={card.title} />
       <StyledCardContent>
         <Title variant="h5">{card.title}</Title>

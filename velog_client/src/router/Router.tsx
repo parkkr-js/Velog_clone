@@ -1,9 +1,13 @@
-import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Home from "../pages";
 import NavBar from "../components/organisms/NavBar";
 import Write from "../pages/write";
 import Posts from "../pages/posts";
+import { userState } from "../state/atoms/userState";
+import { useRecoilValue } from "recoil";
+import ArticleDetailPage from "../pages/article";
+import { useLocation } from "react-router-dom";
 
 function ConditionalNavBar() {
   const location = useLocation();
@@ -17,6 +21,8 @@ function ConditionalNavBar() {
 }
 
 function Router() {
+  const user = useRecoilValue(userState);
+
   return (
     <BrowserRouter>
       <ConditionalNavBar />
@@ -27,6 +33,10 @@ function Router() {
         <Route path="/feed" element={<Home />} />
         <Route path="/write" element={<Write />} />
         <Route path="/posts" element={<Posts />} />
+        <Route
+          path={`/@${user.blogName}/:cardId`}
+          element={<ArticleDetailPage />}
+        />
       </Routes>
     </BrowserRouter>
   );
