@@ -8,10 +8,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class CreatePostResponseDTO {
+public class PostResponseDTO {
         private Long postId;
         private String title;
         private String content;
-        private LocalDateTime createdAt;
         private UserMinimalDTO user;
 }

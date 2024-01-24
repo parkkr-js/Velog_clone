@@ -1,24 +1,21 @@
 package com.velog.velog_backend.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.velog.velog_backend.common.Timestamped;
 import com.velog.velog_backend.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,25 +30,15 @@ public class User {
     private String password;
     @Column(name = "nickname", unique = true)
     private String nickname;
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
     @Builder
-    public User(
-            String username,
-            String email,
-            String password,
-            String nickname,
-            LocalDateTime createdAt
-               ) {
+    public User(String username, String email, String password, String nickname) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-        this.createdAt = createdAt;
     }
 }

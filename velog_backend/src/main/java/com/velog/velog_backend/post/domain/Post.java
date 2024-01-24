@@ -1,51 +1,48 @@
 package com.velog.velog_backend.post.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.velog.velog_backend.comment.domain.Comment;
+import com.velog.velog_backend.common.Timestamped;
+import com.velog.velog_backend.post.dto.request.PostRequestDTO;
 import com.velog.velog_backend.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "posts")
+@Builder
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "posts")
+@Entity
+public class Post extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
+    @Column(name = "post_id", updatable = false)
     private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "content", nullable = false)
+
+    @Column(name = "content",  nullable = false)
     private String content;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "post")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-    @Builder
-    public Post(String title, String content, User user) {
-        this.title = title;
-        this.content = content;
-        this.user = user;
+    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    public void update(PostRequestDTO postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.content = postRequestDto.getContent();
     }
+
+    public boolean validateMember(User user) {
+
+        return !this.user.equals(user);
+    }
+
 }

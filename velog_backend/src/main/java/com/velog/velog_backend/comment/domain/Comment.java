@@ -1,37 +1,55 @@
 package com.velog.velog_backend.comment.domain;
 
+import com.velog.velog_backend.comment.dto.request.CommentRequestDTO;
+import com.velog.velog_backend.common.Timestamped;
 import com.velog.velog_backend.post.domain.Post;
 import com.velog.velog_backend.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "comments")
+@Builder
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "comments")
+@Entity
+public class Comment extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
     private Long id;
 
-    @Column(name = "text")
-    private String text;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Comment parentComment;
+    @JoinColumn(name = "post_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Post post;
 
-    @OneToMany(mappedBy = "parentComment")
-    private List<Comment> childComments;
+    @Column(nullable = false)
+    private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "parent", orphanRemoval = true)
+    private List<Comment> children = new ArrayList<>();
+
+    public void update(CommentRequestDTO commentRequestDto) {
+        this.content = commentRequestDto.getContent();
+    }
+
+    // 부모 댓글 수정
+    public void updateParent(Comment parent){
+        this.parent = parent;
+    }
+
+    public boolean validateMember(User user) {
+        return !this.user.equals(user);
+    }
 }

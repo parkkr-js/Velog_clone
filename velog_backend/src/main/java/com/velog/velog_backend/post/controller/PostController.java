@@ -1,7 +1,7 @@
 package com.velog.velog_backend.post.controller;
 
-import com.velog.velog_backend.post.dto.request.CreatePostRequestDTO;
-import com.velog.velog_backend.post.dto.response.CreatePostResponseDTO;
+import com.velog.velog_backend.post.dto.request.PostRequestDTO;
+import com.velog.velog_backend.post.dto.response.PostResponseDTO;
 import com.velog.velog_backend.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/create")
-    public ResponseEntity<CreatePostResponseDTO> createPost(@RequestBody CreatePostRequestDTO createPostRequestDTO) {
+    public ResponseEntity<PostResponseDTO> createPost(@RequestBody PostRequestDTO createPostRequestDTO) {
         return ResponseEntity.ok(postService.createPost(createPostRequestDTO));
     }
 }

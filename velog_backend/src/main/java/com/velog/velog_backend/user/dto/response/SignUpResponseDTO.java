@@ -14,6 +14,4 @@ public class SignUpResponseDTO {
         private String nickname;
         private String email;
         private String password;
-
-        private LocalDateTime createdAt;
 }
