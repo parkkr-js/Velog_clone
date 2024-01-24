@@ -1,0 +1,5 @@
+spring:
+  profiles.include:
+    - db
+    - oauth2
+    - jwt
