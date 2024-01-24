@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback, FC } from "react";
 import CardTemplate from "../templates/CardTemplate";
 import { useInView } from "react-intersection-observer";
-import styled from "styled-components";
+import styled, { keyframes } from 'styled-components';
 import { CardData as InitialCardData } from "../../assets/data/CardData";
 import { Card } from "../../state/atoms/cardState";
 import { useRecoilState } from "recoil";
 import { tabPanelState } from "../../state/atoms/tabPanelState";
+import theme from "../../styles/theme";
 
-const pageSize = 8;
+const pageSize = 1;
 
 const Cards: FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
@@ -60,7 +61,7 @@ const Cards: FC = () => {
       {cards.map((card: Card) => (
         <CardTemplate key={card.id} card={card} />
       ))}
-      {hasMore && <div ref={ref}>로딩중</div>}
+      {hasMore && <LoadingSpinner ref={ref} />}
     </CardGrid>
   );
 };
@@ -73,21 +74,38 @@ const CardGrid = styled.div`
   align-content: space-between;
   grid-gap: 45px;
   grid-template-columns: repeat(5, 1fr);
+  overflow-y: auto;
 
   @media (max-width: 1600px) {
     grid-template-columns: repeat(4, 1fr);
   }
-
   @media (max-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
   }
-
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
-
   @media (max-width: 600px) {
     grid-template-columns: repeat(1, 1fr);
   }
 `;
 
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid ${theme.colors.primary2};
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: ${rotate} 2s linear infinite;
+  margin: 20px auto;
+`;

@@ -65,8 +65,10 @@ const TagsEditor: React.FC = () => {
 export default TagsEditor;
 
 const TagInputContainer = styled.form`
-  background-color: ${theme.colors.background3};
-  padding: 8px;
+  font-family: "Noto Sans KR", sans-serif;
+  background-color: #121212;
+  height: 24px;
+  padding: 12px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -77,6 +79,8 @@ const Tag = styled.span`
   color: ${theme.colors.primary1};
   padding: 4px 8px;
   border-radius: 15px;
+  font-size: ${theme.fontSizes.body1};
+  font-weight: ${theme.fontWeights.body1};
   cursor: pointer;
 `;
 
@@ -87,12 +91,13 @@ const TagInputField = styled.input`
   outline: none;
   flex-grow: 1;
   &::placeholder {
+    font-size: ${theme.fontSizes.body1};
     color: #555;
   }
 `;
 
 const HelpText = styled.div`
   color: ${theme.colors.primary1};
-  font-size: 12px;
+  font-size: ${theme.fontSizes.body1};
   margin-top: 8px;
 `;
