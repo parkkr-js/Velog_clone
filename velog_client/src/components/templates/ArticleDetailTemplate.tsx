@@ -9,6 +9,7 @@ import "prismjs/themes/prism.css";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
 import Prism from "prismjs";
+import MyVelogProfileSection from "../atoms/MyVelogProfileSection";
 
 interface ArticleDetailTemplateProps {
   card: Card | null;
@@ -88,6 +89,8 @@ const ArticleDetailTemplate: React.FC<ArticleDetailTemplateProps> = ({
           theme="dark"
         />
       </Content>
+      <MyVelogProfileSection />
+      <Br />
     </Div>
   );
 };
@@ -179,6 +182,7 @@ const Content = styled.div`
   font-weight: ${theme.fontWeights.body2};
   color: ${theme.colors.text1};
   padding-top: 32px;
+  padding-bottom: 150px;
 `;
 
 const Image = styled.img`
@@ -229,4 +233,10 @@ const Tag = styled.div`
   background-color: ${theme.colors.background3};
   border: none;
   border-radius: 15px;
+`;
+
+const Br = styled.br`
+  width: 100%;
+  height: 1px;
+  background-color: ${theme.colors.secondary};
 `;
