@@ -14,7 +14,7 @@ const Cards: FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
-  const [ref, inView] = useInView({ threshold: 0 });
+  const [ref, inView] = useInView({ threshold: 1 });
   const [selectedTab] = useRecoilState(tabPanelState);
 
   const sortCards = useCallback(() => {

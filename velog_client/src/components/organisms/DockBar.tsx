@@ -2,6 +2,7 @@ import LabTabs from "../molecules/LabTabs";
 import SelectBox from "../molecules/SelectBox";
 import Cards from "../molecules/Cards";
 import styled from "styled-components";
+import LoginBtn from "../atoms/LoginBtn";
 
 const DockBar = () => {
   return (

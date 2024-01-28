@@ -10,9 +10,13 @@ import { homeState } from "../../state/atoms/homeState";
 import { useRecoilState } from "recoil";
 import { set } from "react-hook-form";
 import MainLogoAfterLogin from "../atoms/MainLogoAfterLogin";
+import LoginBtn from "../atoms/LoginBtn";
+import { authState } from "../../state/atoms/authState";
+
 
 const NavBar = () => {
   const [isHome, setIsHome] = useRecoilState(homeState);
+  const [auth, ] = useRecoilState(authState);
   const navigate = useNavigate();
   const handleWriteBtn = () => {
     setIsHome(false);
@@ -21,18 +25,20 @@ const NavBar = () => {
 
   return (
     <Container>
-      {isHome ? (
-        <MainLogo />
+    {isHome ? <MainLogo /> : <MainLogoAfterLogin />}
+    <Box>
+      <DarkModeBtn />
+      <SearchBtn />
+      {auth.isLoggedIn ? (
+        <>
+          <WriteBtn onClick={handleWriteBtn} />
+          <ProfileBtn />
+        </>
       ) : (
-        <MainLogoAfterLogin />
+        <LoginBtn />
       )}
-      <Box>
-        <DarkModeBtn />
-        <SearchBtn />
-        <WriteBtn onClick={handleWriteBtn} />
-        <ProfileBtn />
-      </Box>
-    </Container>
+    </Box>
+  </Container>
   );
 };
 
