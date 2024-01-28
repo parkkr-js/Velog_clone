@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.velog.velog_backend.common.Timestamped;
 import com.velog.velog_backend.post.domain.Post;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends Timestamped {
 
@@ -22,23 +20,30 @@ public class User extends Timestamped {
     @Column(name = "user_id", updatable = false)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
     private String email;
-    @Column(name = "password")
-    private String password;
-    @Column(name = "nickname", unique = true)
-    private String nickname;
+
+    @Column(name = "picture_url")
+    private String pictureUrl;
+
+    @Column(nullable = false)
+    private String roles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
     @Builder
-    public User(String username, String email, String password, String nickname) {
-        this.username = username;
+    public User(String firstName, String lastName, String email, String pictureUrl) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
-        this.password = password;
-        this.nickname = nickname;
+        this.pictureUrl = pictureUrl;
     }
+
 }

@@ -3,3 +3,6 @@ spring:
     - db
     - oauth2
     - jwt
+  web:
+    cors:
+      allowed-origins: http://localhost:3000

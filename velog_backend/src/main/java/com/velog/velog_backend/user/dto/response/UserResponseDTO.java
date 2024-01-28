@@ -1,14 +1,15 @@
 package com.velog.velog_backend.user.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
-
-import java.time.LocalDateTime;
+import com.velog.velog_backend.user.domain.User;
+import lombok.*;
 
 
 @Getter
+@Setter
 @Builder
-public class SignUpResponseDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserResponseDTO {
 
         private String firstName;
 
@@ -16,11 +17,11 @@ public class SignUpResponseDTO {
 
         private String email;
 
-        public static final AccountDto convertToDto(Account account) {
-                return AccountDto.builder()
-                        .firstName(account.getFirstName())
-                        .lastName(account.getLastName())
-                        .email(account.getEmail())
+        public static final UserResponseDTO convertToDto(User user) {
+                return UserResponseDTO.builder()
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .email(user.getEmail())
                         .build();
         }
 
