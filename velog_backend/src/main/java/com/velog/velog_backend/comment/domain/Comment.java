@@ -3,7 +3,7 @@ package com.velog.velog_backend.comment.domain;
 import com.velog.velog_backend.comment.dto.request.CommentRequestDTO;
 import com.velog.velog_backend.common.Timestamped;
 import com.velog.velog_backend.post.domain.Post;
-import com.velog.velog_backend.user.domain.User;
+import com.velog.velog_backend.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
@@ -21,9 +21,9 @@ public class Comment extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Member member;
 
     @JoinColumn(name = "post_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,7 +49,7 @@ public class Comment extends Timestamped {
         this.parent = parent;
     }
 
-    public boolean validateMember(User user) {
-        return !this.user.equals(user);
+    public boolean validateMember(Member member) {
+        return !this.member.equals(member);
     }
 }

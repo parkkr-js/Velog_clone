@@ -2,8 +2,8 @@ package com.velog.velog_backend.post.domain;
 
 import com.velog.velog_backend.comment.domain.Comment;
 import com.velog.velog_backend.common.Timestamped;
-import com.velog.velog_backend.post.dto.request.PostRequestDTO;
-import com.velog.velog_backend.user.domain.User;
+//import com.velog.velog_backend.post.dto.request.PostRequestDTO;
+import com.velog.velog_backend.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,21 +28,24 @@ public class Post extends Timestamped {
     @Column(name = "content",  nullable = false)
     private String content;
 
+    @Column(name = "likes")
+    private Long likes;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Member member;
 
-    public void update(PostRequestDTO postRequestDto) {
-        this.title = postRequestDto.getTitle();
-        this.content = postRequestDto.getContent();
-    }
-
-    public boolean validateMember(User user) {
-
-        return !this.user.equals(user);
-    }
+//    public void update(PostRequestDTO postRequestDto) {
+//        this.title = postRequestDto.getTitle();
+//        this.content = postRequestDto.getContent();
+//    }
+//
+//    public boolean validateMember(Member member) {
+//
+//        return !this.member.equals(member);
+//    }
 
 }

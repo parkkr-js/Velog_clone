@@ -6,8 +6,8 @@
 //import com.velog.velog_backend.comment.repository.CommentRepository;
 //import com.velog.velog_backend.post.domain.Post;
 //import com.velog.velog_backend.post.repository.PostRepository;
-//import com.velog.velog_backend.user.domain.User;
-//import com.velog.velog_backend.user.repository.UserRepository;
+//import com.velog.velog_backend.member.domain.Member;
+//import com.velog.velog_backend.member.repository.MemberRepository;
 //import jakarta.transaction.Transactional;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Service;
@@ -18,12 +18,12 @@
 //
 //    private final CommentRepository commentRepository;
 //    private final PostRepository postRepository;
-//    private final UserRepository userRepository;
+//    private final MemberRepository userRepository;
 //
 //    @Transactional
 //    public CommentResponseDTO createComment(CommentRequestDTO requestDto) {
 //
-//        User user = userRepository.findById(requestDto.getUserId())
+//        Member member = userRepository.findById(requestDto.getUserId())
 //                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
 //
 //        // 게시글(Post) 존재 여부 확인
@@ -39,7 +39,7 @@
 //
 //        // 댓글 생성
 //        Comment comment = Comment.builder()
-//                .user(user)
+//                .member(member)
 //                .content(requestDto.getContent())
 //                .post(post)
 //                .parent(parentComment) // 부모 댓글 설정
@@ -48,7 +48,7 @@
 //        comment = commentRepository.save(comment);
 //
 //        return CommentResponseDTO.builder()
-//                .username(user.getFirstName() + user.getLastName())
+//                .username(member.getFirstName() + member.getLastName())
 //                .commentId(comment.getId())
 //                .content(comment.getContent())
 //                .postId(post.getId())
