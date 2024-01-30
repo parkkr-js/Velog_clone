@@ -35,9 +35,20 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
+/*
+이 파일(SecurityConfig.java)은 Spring Boot 애플리케이션의 보안 관련 설정을 담고 있는 Java 설정 클래스이다.
+@Configuration 어노테이션이 클래스에 붙어 있어서, 스프링 프레임워크는 이 클래스를 구성(Configuration) 클래스로 인식하고
+ 애플리케이션 컨텍스트가 초기화될 때 해당 설정을 로드한다.
+ */
+
+
 @Slf4j
 @Configuration
 @EnableWebSecurity
+/*
+@EnableWebSecurity 어노테이션은 Spring Security를 활성화하고 웹 보안을 설정하는 데 사용된다.
+이 어노테이션이 붙어있는 클래스에서는 HttpSecurity를 통해 다양한 보안 관련 설정을 커스터마이즈할 수 있다.
+ */
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -48,7 +59,16 @@ public class SecurityConfig {
     private String client;
 
     @Bean
+    /*
+    스프링 애플리케이션이 시작될 때,
+    스프링 컨테이너는 @Configuration 클래스를 로드하고 @Bean으로 정의된 메소드를 실행하여 스프링 빈을 생성하고 관리한다.
+     */
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        log.info("SecurityConfig.filterChain 실행");
+        /*
+        filterChain(HttpSecurity http) 메소드는 HTTP 요청에 대한 보안 처리를 설정하는 보안 필터 체인을 정의한다.
+        이 설정은 웹 요청이 들어올 때마다 적용되어 요청의 인증과 권한 부여를 처리한다.
+         */
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
@@ -78,21 +98,37 @@ public class SecurityConfig {
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(
                         handler -> handler.authenticationEntryPoint(this.oAuth2AuthenticationEntryPoint()));
+        log.info("SecurityConfig.filterChain 종료");
         return http.build();
     }
+
+    /*
+     http.oauth2Login(
+    oauth -> oauth.loginPage("/loginForm") //구글 로그인이 완료된 뒤의 후처리. 엑세스토큰 + 사용자프로필정보 받아옴
+            .defaultSuccessUrl("/home")
+                        .userInfoEndpoint()
+                        .userService(principalOauth2UserService) //구글 로그인이 완료된 뒤의 후처리. 엑세스토큰 + 사용자프로필정보 받아옴
+        );
+    */
+
+
+
+
+
 
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
+        log.info("SecurityConfig.corsConfigurationSource 실행");
 
+        CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(client));
         config.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE"));
         config.setAllowedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE));
         config.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+        log.info("SecurityConfig.corsConfigurationSource 종료");
         return source;
     }
 
@@ -102,11 +138,17 @@ public class SecurityConfig {
     }
 
     private AuthenticationEntryPoint oAuth2AuthenticationEntryPoint() {
-        return (request, response, authException) ->
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        return (request, response, authException) -> {
+            // 로그에 에러 메시지와 스택 트레이스를 기록
+            log.error("Authentication error: " + authException.getMessage());
+            log.error("Stack Trace: ", authException);
+
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+        };
     }
 
     private AuthenticationSuccessHandler oAuth2SuccessHandler() {
+        log.info("SecurityConfig.oAuth2SuccessHandler 실행");
         final DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
         return (request, response, authentication) -> {
@@ -118,17 +160,18 @@ public class SecurityConfig {
 
             String targetUrl =
                     UriComponentsBuilder.fromUriString(client)
-                            .path("oauth2/redirect")
+                            .path("/oauth2/redirect")
                             .queryParam("token", accessToken)
                             .queryParam("hasRegistered", member.isRegistered())
                             .build()
                             .toUriString();
-
+            log.info(targetUrl);
             redirectStrategy.sendRedirect(request, response, targetUrl);
         };
     }
 
     private OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
+        log.info("SecurityConfig.oAuth2UserService 실행");
         final DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
 
         return userRequest -> {
@@ -141,6 +184,7 @@ public class SecurityConfig {
                                 .uid(oAuth2User.getAttribute("sub"))
                                 .email(oAuth2User.getAttribute("email"))
                                 .pictureUrl(oAuth2User.getAttribute("picture"))
+                                .nickname(oAuth2User.getAttribute("name"))
                                 .isRegistered(false)
                                 .build();
                 memberRepository.save(member);

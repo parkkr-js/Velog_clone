@@ -32,7 +32,6 @@ public class Member extends Timestamped {
     @Column(name = "picture_url")
     private String pictureUrl;
 
-    @Column(nullable = false)
     private String nickname;
 
     private boolean isRegistered;
@@ -46,6 +45,10 @@ public class Member extends Timestamped {
         this.uid = uid;
         this.email = email;
         this.pictureUrl = pictureUrl;
+        /*
+        isRegistered 변수가 null이 아니라면 그 값을 사용하고,
+        만약 null이라면 대신 true를 기본값으로 사용
+        */
         this.isRegistered = requireNonNullElse(isRegistered, true);
         this.nickname = nickname;
     }
