@@ -1,5 +1,7 @@
 package com.velog.velog_backend.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.velog.velog_backend.jwt.JwtDTO;
 import com.velog.velog_backend.jwt.JwtService;
 import com.velog.velog_backend.member.repository.MemberRepository;
 import com.velog.velog_backend.member.domain.Member;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -64,7 +67,6 @@ public class SecurityConfig {
     스프링 컨테이너는 @Configuration 클래스를 로드하고 @Bean으로 정의된 메소드를 실행하여 스프링 빈을 생성하고 관리한다.
      */
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        log.info("SecurityConfig.filterChain 실행");
         /*
         filterChain(HttpSecurity http) 메소드는 HTTP 요청에 대한 보안 처리를 설정하는 보안 필터 체인을 정의한다.
         이 설정은 웹 요청이 들어올 때마다 적용되어 요청의 인증과 권한 부여를 처리한다.
@@ -98,29 +100,12 @@ public class SecurityConfig {
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(
                         handler -> handler.authenticationEntryPoint(this.oAuth2AuthenticationEntryPoint()));
-        log.info("SecurityConfig.filterChain 종료");
         return http.build();
     }
-
-    /*
-     http.oauth2Login(
-    oauth -> oauth.loginPage("/loginForm") //구글 로그인이 완료된 뒤의 후처리. 엑세스토큰 + 사용자프로필정보 받아옴
-            .defaultSuccessUrl("/home")
-                        .userInfoEndpoint()
-                        .userService(principalOauth2UserService) //구글 로그인이 완료된 뒤의 후처리. 엑세스토큰 + 사용자프로필정보 받아옴
-        );
-    */
-
-
-
-
-
 
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        log.info("SecurityConfig.corsConfigurationSource 실행");
-
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(client));
         config.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE"));
@@ -128,7 +113,6 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-        log.info("SecurityConfig.corsConfigurationSource 종료");
         return source;
     }
 
@@ -140,6 +124,7 @@ public class SecurityConfig {
     private AuthenticationEntryPoint oAuth2AuthenticationEntryPoint() {
         return (request, response, authException) -> {
             // 로그에 에러 메시지와 스택 트레이스를 기록
+            //401 에러 해결: url문제였음
             log.error("Authentication error: " + authException.getMessage());
             log.error("Stack Trace: ", authException);
 
@@ -162,13 +147,28 @@ public class SecurityConfig {
                     UriComponentsBuilder.fromUriString(client)
                             .path("/oauth2/redirect")
                             .queryParam("token", accessToken)
-                            .queryParam("hasRegistered", member.isRegistered())
                             .build()
                             .toUriString();
-            log.info(targetUrl);
+            log.info(targetUrl); // 리디랙션 url 확인
             redirectStrategy.sendRedirect(request, response, targetUrl);
         };
     }
+
+    // dto로 보내기
+//    private AuthenticationSuccessHandler oAuth2SuccessHandler() {
+//        return (request, response, authentication) -> {
+//            OAuth2User userinfo = (OAuth2User) authentication.getPrincipal();
+//            String email = userinfo.getAttribute("email");
+//
+//            String accessToken = jwtService.generateToken(email);
+//
+//            JwtDTO jwtDTO = new JwtDTO(accessToken);
+//
+//            // 응답 설정 및 JSON으로 변환하여 응답 본문에 쓰기
+//            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//            new ObjectMapper().writeValue(response.getOutputStream(), jwtDTO);
+//        };
+//    }
 
     private OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
         log.info("SecurityConfig.oAuth2UserService 실행");
@@ -185,7 +185,6 @@ public class SecurityConfig {
                                 .email(oAuth2User.getAttribute("email"))
                                 .pictureUrl(oAuth2User.getAttribute("picture"))
                                 .nickname(oAuth2User.getAttribute("name"))
-                                .isRegistered(false)
                                 .build();
                 memberRepository.save(member);
             }

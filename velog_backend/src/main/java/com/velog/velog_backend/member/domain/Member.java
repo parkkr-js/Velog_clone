@@ -34,7 +34,7 @@ public class Member extends Timestamped {
 
     private String nickname;
 
-    private boolean isRegistered;
+//    private boolean isRegistered;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
@@ -49,13 +49,13 @@ public class Member extends Timestamped {
         isRegistered 변수가 null이 아니라면 그 값을 사용하고,
         만약 null이라면 대신 true를 기본값으로 사용
         */
-        this.isRegistered = requireNonNullElse(isRegistered, true);
+//        this.isRegistered = requireNonNullElse(isRegistered, true);
         this.nickname = nickname;
     }
 
     public void update(MemberRequest form) {
         this.nickname = isNull(form.getNickname()) ? nickname : form.getNickname();
-        if (!this.isRegistered) this.isRegistered = true;
+//        if (!this.isRegistered) this.isRegistered = true;
     }
 
 }

@@ -28,6 +28,7 @@ function Router() {
       <ConditionalNavBar />
       <Routes>
         <Route path="/" element={<Home />} />
+        {/* <Route path="/oauth2/redirect" element={<BlankPage />} /> */}
         <Route path="/trending/week" element={<Home />} />
         <Route path="/recent" element={<Home />} />
         <Route path="/feed" element={<Home />} />

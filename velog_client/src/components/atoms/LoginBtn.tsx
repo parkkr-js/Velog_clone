@@ -1,55 +1,36 @@
-import React from "react";
-import styled from "styled-components";
-import { useGoogleLogin } from "@react-oauth/google";
-import { GoogleLogin } from "react-google-login";
-import { FcGoogle } from "react-icons/fc";
-import { useRecoilState } from "recoil";
-import { authState } from "../../state/atoms/authState";
-import { on } from "events";
+import React, { FC } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import { FcGoogle } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
 
-const LoginBtn: React.FC = () => {
-  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID!;
+const LoginBtn: FC = () => {
+  const navigate = useNavigate();
 
-  const onSuccess = async (res: any) => {
-    console.log("LOGIN SUCCESS! Current user: ", res.profileObj);
-
+  // OAuth2 로그인 처리
+  const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:8080/v1/oauth/login", {
-        method: "POST",
-        credentials: "include", // include, *same-origin, omit
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(res.idToken), // Sending the Google token ID to your backend
-      });
-
-      if (response.ok) {
-        // Handle successful authentication here
-        console.log("Backend authentication successful");
-      } else {
-        // Handle errors here
-        console.error("Backend authentication failed");
+      // 백엔드에 OAuth2 플로우를 시작하도록 요청
+      const response = await axios.get('http://localhost:8080/oauth2/authorization/google');
+      // 백엔드가 위 GET 요청에 대한 응답으로 토큰을 반환한다고 가정
+      const { token } = response.data;
+      if (token) {
+        localStorage.setItem('token', token);
+        navigate('/'); // 루트 페이지로 이동
       }
     } catch (error) {
-      console.error("Error during authentication: ", error);
+      console.error('로그인 중 에러 발생', error);
     }
   };
 
-  const onFailure = (res: any) => {
-    console.log("LOGIN FAILED! res: ", res);
-  };
   return (
-    <GoogleLogin
-      clientId={clientId}
-      buttonText="Login"
-      onSuccess={onSuccess}
-      onFailure={onFailure}
-      cookiePolicy={"single_host_origin"}
-      isSignedIn={true}
-    />
+    <GoogleLoginButton onClick={handleLogin}>
+      <FcGoogle />
+      <span>Google로 로그인</span>
+    </GoogleLoginButton>
   );
 };
+
 export default LoginBtn;
 
 const GoogleLoginButton = styled.button`
@@ -74,5 +55,9 @@ const GoogleLoginButton = styled.button`
   &:active {
     background-color: #d6d6d6;
     transform: translateY(0);
+  }
+
+  span {
+    margin-left: 8px;
   }
 `;
