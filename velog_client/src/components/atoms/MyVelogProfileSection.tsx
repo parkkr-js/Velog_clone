@@ -7,10 +7,10 @@ const MyVelogProfileSection: React.FC = () => {
   const DemoUser = useRecoilValue(userState);
   return (
     <Div>
-      <ProfileImage src={DemoUser.profileImageUrl} />
+      <ProfileImage src={DemoUser.profileImgUrl} />
       <ProfileInfo>
         <ProfileName>{DemoUser.name}</ProfileName>
-        <ProfileExplain>{DemoUser.explain}</ProfileExplain>
+        <ProfileExplain>아직 설정 안함</ProfileExplain>
       </ProfileInfo>
     </Div>
   );

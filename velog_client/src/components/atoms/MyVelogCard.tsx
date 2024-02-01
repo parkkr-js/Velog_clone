@@ -32,7 +32,7 @@ const MyVelogCard: React.FC<CardProps> = ({ card }) => {
     return date.toLocaleDateString("ko-KR", options);
   };
   const handleCardClick = () => {
-    navigate(`/@${user.blogName}/${card.id}`);
+    navigate(`/@${user.name}/${card.id}`);
   };
   
 

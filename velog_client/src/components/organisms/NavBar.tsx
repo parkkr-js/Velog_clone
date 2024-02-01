@@ -11,34 +11,38 @@ import { useRecoilState } from "recoil";
 import { set } from "react-hook-form";
 import MainLogoAfterLogin from "../atoms/MainLogoAfterLogin";
 import LoginBtn from "../atoms/LoginBtn";
-import { authState } from "../../state/atoms/authState";
+import { userState } from "../../state/atoms/userState";
+import { useRecoilValue } from "recoil";
 
 
 const NavBar = () => {
   const [isHome, setIsHome] = useRecoilState(homeState);
-  const [auth, ] = useRecoilState(authState);
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
+
   const handleWriteBtn = () => {
     setIsHome(false);
     navigate("/write");
   };
 
+  const isLoggedIn = user && user.email; 
+
   return (
     <Container>
-    {isHome ? <MainLogo /> : <MainLogoAfterLogin />}
-    <Box>
-      <DarkModeBtn />
-      <SearchBtn />
-      {auth.isLoggedIn ? (
-        <>
-          <WriteBtn onClick={handleWriteBtn} />
-          <ProfileBtn />
-        </>
-      ) : (
-        <LoginBtn />
-      )}
-    </Box>
-  </Container>
+      {isHome ? <MainLogo /> : <MainLogoAfterLogin />}
+      <Box>
+        <DarkModeBtn />
+        <SearchBtn />
+        {isLoggedIn ? (
+          <>
+            <WriteBtn onClick={handleWriteBtn} />
+            <ProfileBtn />
+          </>
+        ) : (
+          <LoginBtn /> 
+        )}
+      </Box>
+    </Container>
   );
 };
 
@@ -61,4 +65,10 @@ const Box = styled.div`
   align-items: center;
   gap: 5px;
   justify-content: space-between;
+`;
+
+const P = styled.p`
+  font-size: ${theme.fontSizes.body1};
+  font-weight: ${theme.fontWeights.body2};
+  color: ${theme.colors.text1};
 `;

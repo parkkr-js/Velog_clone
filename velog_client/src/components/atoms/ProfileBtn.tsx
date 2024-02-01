@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Box, Avatar, IconButton, Menu, MenuItem } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import theme from "../../styles/theme";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../state/atoms/userState";
+import { useResetRecoilState } from "recoil";
 
 const ProfileBtn: React.FC = () => {
+  const API = process.env.REACT_APP_API_URL;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const userInfo = useRecoilValue(userState);
+  const resetUserState = useResetRecoilState(userState);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -17,10 +24,33 @@ const ProfileBtn: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const handleLogoutBtn = () => {
+    setAnchorEl(null);
+    fetch(`${API}/api/logout`, {
+      method: "POST",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("로그아웃 실패했다");
+        }
+      })
+      .then(() => {
+        resetUserState();
+      })
+      .catch((error) => {
+        console.error("로그아웃 실패했다", error);
+      });
+  };
+
+  useEffect(() => {
+    navigate("/");
+  }, [resetUserState]);
+
   return (
     <Box>
       <StyledIconButton onClick={handleClick}>
-        <StyledAvatar src="https://velog.velcdn.com/images/live_in_truth/profile/03d01656-a3c6-440c-822e-60269b8e102a/social_profile.jpeg" />
+        <StyledAvatar src={userInfo.profileImgUrl} />
         <StyledArrowDropDownIcon />
       </StyledIconButton>
       <StyledMenu
@@ -47,7 +77,7 @@ const ProfileBtn: React.FC = () => {
         <MenuItem onClick={handleClose}>임시 글</MenuItem>
         <MenuItem onClick={handleClose}>읽기 목록</MenuItem>
         <MenuItem onClick={handleClose}>설정</MenuItem>
-        <MenuItem onClick={handleClose}>로그아웃</MenuItem>
+        <MenuItem onClick={handleLogoutBtn}>로그아웃</MenuItem>
       </StyledMenu>
     </Box>
   );

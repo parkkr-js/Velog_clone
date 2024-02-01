@@ -5,10 +5,14 @@ import { homeState } from "../../state/atoms/homeState";
 import styled from "styled-components";
 import { ReactComponent as VelogLogo } from "../../assets/img/velog_logo2.svg";
 import theme from "../../styles/theme";
+import { userState } from "../../state/atoms/userState";
+import { useRecoilValue } from "recoil";
 
 const MainLogoAfterLogin: React.FC = () => {
   const navigate = useNavigate();
   const [isHome, setIsHome] = useRecoilState(homeState);
+  const user = useRecoilValue(userState);
+
 
   const handleLogoClick = () => {
     setIsHome(true);
@@ -22,7 +26,7 @@ const MainLogoAfterLogin: React.FC = () => {
   return (
     <Div>
       <Logo onClick={handleLogoClick} />
-      <Text onClick={handleTextClick}>live_in_truth.log</Text>
+      <Text onClick={handleTextClick}>{user.name}.log</Text>
     </Div>
   );
 };

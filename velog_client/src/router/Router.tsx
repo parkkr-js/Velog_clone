@@ -8,6 +8,7 @@ import { userState } from "../state/atoms/userState";
 import { useRecoilValue } from "recoil";
 import ArticleDetailPage from "../pages/article";
 import { useLocation } from "react-router-dom";
+import RedirectionAfterLoginPage from "../pages/RedirectionAfterLoginPage";
 
 function ConditionalNavBar() {
   const location = useLocation();
@@ -28,14 +29,14 @@ function Router() {
       <ConditionalNavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/oauth2/redirect" element={<BlankPage />} /> */}
+        <Route path="/oauth2/redirect" element={<RedirectionAfterLoginPage />} />
         <Route path="/trending/week" element={<Home />} />
         <Route path="/recent" element={<Home />} />
         <Route path="/feed" element={<Home />} />
         <Route path="/write" element={<Write />} />
         <Route path="/posts" element={<Posts />} />
         <Route
-          path={`/@${user.blogName}/:cardId`}
+          path={`/@${user.name}/:cardId`}
           element={<ArticleDetailPage />}
         />
       </Routes>
