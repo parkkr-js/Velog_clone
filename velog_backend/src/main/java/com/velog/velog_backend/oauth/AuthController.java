@@ -1,16 +1,27 @@
 package com.velog.velog_backend.oauth;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 public class AuthController {
 
-    @GetMapping("/auth")
-    public ResponseEntity<String> authorize(@AuthenticationPrincipal OAuth2User user) {
-        return ResponseEntity.ok(user.getName());
+    @GetMapping("/api/userinfo")
+    public ResponseEntity<AuthDTO> getUserInfo(@AuthenticationPrincipal OAuth2User principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        AuthDTO authDTO = AuthDTO.builder()
+                .name(principal.getAttribute("name"))
+                .email(principal.getAttribute("email"))
+                .profileImgUrl(principal.getAttribute("picture"))
+                .build();
+
+        return ResponseEntity.ok(authDTO);
     }
 }

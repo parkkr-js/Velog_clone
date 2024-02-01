@@ -1,15 +1,10 @@
 package com.velog.velog_backend.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.velog.velog_backend.jwt.JwtDTO;
-import com.velog.velog_backend.jwt.JwtService;
-import com.velog.velog_backend.member.repository.MemberRepository;
-import com.velog.velog_backend.member.domain.Member;
 import com.velog.velog_backend.jwt.JwtAuthorizationFilter;
+import com.velog.velog_backend.jwt.JwtService;
+import com.velog.velog_backend.member.domain.Member;
+import com.velog.velog_backend.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,26 +12,27 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /*
 이 파일(SecurityConfig.java)은 Spring Boot 애플리케이션의 보안 관련 설정을 담고 있는 Java 설정 클래스이다.
@@ -89,6 +85,8 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/nickname")
                                         .permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/api/userinfo")
+                                        .permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .oauth2Login(
@@ -96,8 +94,7 @@ public class SecurityConfig {
                                 oauth2
                                         .userInfoEndpoint(userInfo -> userInfo.userService(this.oAuth2UserService()))
                                         .successHandler(this.oAuth2SuccessHandler()))
-                .addFilterBefore(this.jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .exceptionHandling(
                         handler -> handler.authenticationEntryPoint(this.oAuth2AuthenticationEntryPoint()));
         return http.build();
@@ -132,43 +129,30 @@ public class SecurityConfig {
         };
     }
 
+    // 유저정보 세션저장
     private AuthenticationSuccessHandler oAuth2SuccessHandler() {
-        log.info("SecurityConfig.oAuth2SuccessHandler 실행");
-        final DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
         return (request, response, authentication) -> {
-            OAuth2User userinfo = (OAuth2User) authentication.getPrincipal();
-            String email = userinfo.getAttribute("email");
 
-            String accessToken = jwtService.generateToken(email);
-            Member member = memberRepository.findByEmail(email).orElseThrow();
+            OAuth2User userinfo = (OAuth2User) authentication.getPrincipal();
+            request.getSession().setAttribute("userEmail", userinfo.getAttribute("email"));
+            request.getSession().setAttribute("userName", userinfo.getAttribute("name"));
+            request.getSession().setAttribute("userPicture", userinfo.getAttribute("picture"));
 
             String targetUrl =
                     UriComponentsBuilder.fromUriString(client)
                             .path("/oauth2/redirect")
-                            .queryParam("token", accessToken)
                             .build()
                             .toUriString();
-            log.info(targetUrl); // 리디랙션 url 확인
-            redirectStrategy.sendRedirect(request, response, targetUrl);
+            // 세션에 저장된 유저정보 확인 -> 문제없음 ㅇㅋㅇㅋ
+            log.info("User Email: {}", request.getSession().getAttribute("userEmail"));
+            log.info("User Name: {}", request.getSession().getAttribute("userName"));
+            log.info("User Picture: {}", request.getSession().getAttribute("userPicture"));
+
+            response.sendRedirect(targetUrl);
         };
     }
 
-    // dto로 보내기
-//    private AuthenticationSuccessHandler oAuth2SuccessHandler() {
-//        return (request, response, authentication) -> {
-//            OAuth2User userinfo = (OAuth2User) authentication.getPrincipal();
-//            String email = userinfo.getAttribute("email");
-//
-//            String accessToken = jwtService.generateToken(email);
-//
-//            JwtDTO jwtDTO = new JwtDTO(accessToken);
-//
-//            // 응답 설정 및 JSON으로 변환하여 응답 본문에 쓰기
-//            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//            new ObjectMapper().writeValue(response.getOutputStream(), jwtDTO);
-//        };
-//    }
+
 
     private OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
         log.info("SecurityConfig.oAuth2UserService 실행");
@@ -191,11 +175,5 @@ public class SecurityConfig {
             return oAuth2User;
         };
     }
-
-    // In development only
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return web -> web.ignoring().requestMatchers(new AntPathRequestMatcher("/h2-console/**"));
-//    }
 }
 

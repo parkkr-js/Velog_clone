@@ -24,12 +24,13 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
 
-    @PostMapping("/users")
-    public ResponseEntity<MemberResponse> registerMember(
-            @AuthenticationPrincipal OAuth2User user, @RequestBody @Valid MemberRequest form) {
-        Member member = memberService.updateMember(user.getName(), form);
-        return ResponseEntity.ok(new MemberResponse(member));
-    }
+
+//    @PostMapping("/users")
+//    public ResponseEntity<MemberResponse> registerMember(
+//            @AuthenticationPrincipal OAuth2User user, @RequestBody @Valid MemberRequest form) {
+//        Member member = memberService.updateMember(user.getName(), form);
+//        return ResponseEntity.ok(new MemberResponse(member));
+//    }
 
     @GetMapping("/users/me")
     public ResponseEntity<MemberProfileResponse> getProfile(
@@ -38,17 +39,17 @@ public class MemberController {
         return ResponseEntity.ok(new MemberProfileResponse(member));
     }
 
-    @PutMapping("/users/me")
-    public ResponseEntity<MemberResponse> modifyProfile(
-            @AuthenticationPrincipal OAuth2User user, @RequestBody MemberRequest form) {
-        Member member = memberService.updateMember(user.getName(), form);
-        return ResponseEntity.ok(new MemberResponse(member));
-    }
+//    @PutMapping("/users/me")
+//    public ResponseEntity<MemberResponse> modifyProfile(
+//            @AuthenticationPrincipal OAuth2User user, @RequestBody MemberRequest form) {
+//        Member member = memberService.updateMember(user.getName(), form);
+//        return ResponseEntity.ok(new MemberResponse(member));
+//    }
 
-    @DeleteMapping("/users/me")
-    public ResponseEntity<String> deleteAccount(@AuthenticationPrincipal OAuth2User user) {
-        return ResponseEntity.ok(memberService.deleteMember(user.getName()));
-    }
+//    @DeleteMapping("/users/me")
+//    public ResponseEntity<String> deleteAccount(@AuthenticationPrincipal OAuth2User user) {
+//        return ResponseEntity.ok(memberService.deleteMember(user.getName()));
+//    }
 
     @GetMapping("/users/validation")
     public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam String nickname) {
