@@ -32,14 +32,14 @@ const ProfileBtn: React.FC = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("로그아웃 실패했다");
+          throw new Error("로그아웃 실패했다 문제는 서버와의 통신");
         }
       })
       .then(() => {
         resetUserState();
       })
       .catch((error) => {
-        console.error("로그아웃 실패했다", error);
+        console.error("서버와의 통신 오류 또는 로그아웃 작업 실패", error);
       });
   };
 

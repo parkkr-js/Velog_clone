@@ -7,6 +7,7 @@ const { persistAtom } = recoilPersist({
 });
 
 export interface User {
+  memberId: number | null;
   email: string;
   name: string;
   profileImgUrl: string;
@@ -15,6 +16,7 @@ export interface User {
 export const userState = atom<User>({
   key: "userState",
   default: {
+    memberId: null,
     email: "",
     name: "",
     profileImgUrl: "",

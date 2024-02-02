@@ -2,36 +2,23 @@ import React from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import { Editor } from "@toast-ui/react-editor";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import theme from "../../styles/theme";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useState } from "react";
 import TagsEditor from "../atoms/TagsEditor";
 
-interface IFormInput {
-  title: string;
-}
 
 const MarkdownEditor: React.FC = () => {
-  const [title, setTitle] = useState("");
-  const { control, handleSubmit } = useForm<IFormInput>();
 
   const goBack = () => {
     window.history.back();
   };
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
-  };
+
 
   return (
     <Container>
-      <Controller
-        name="title"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
+
           <Editor
             height="100%"
             initialValue="# 제목을 입력하세요"
@@ -48,9 +35,15 @@ const MarkdownEditor: React.FC = () => {
             ]}
             theme="dark"
             usageStatistics={false}
-            {...field}
-          />
-        )}
+            hooks={{
+              addImageBlobHook: (blob: Blob, callback: Function) => {
+               console.log(blob);
+              },
+            }}
+            
+         
+
+       
       />
       <TagsEditor />
       <NavBarContainer>
@@ -152,43 +145,3 @@ const Box = styled.div`
   box-sizing: border-box;
   border-radius: 50px;
 `;
-
-/**
- * ![image](https://uicdn.toast.com/toastui/img/tui-editor-bi.png)
-
-# Awesome Editor!
-
-It has been _released as opensource in 2018_ and has ~~continually~~ evolved to **receive 10k GitHub ⭐️ Stars**.
-
-## Create Instance
-
-You can create an instance with the following code and use `getHtml()` and `getMarkdown()` of the [Editor](https://github.com/nhn/tui.editor).
-
-```js
-const editor = new Editor(options);
-```
-
-> See the table below for default options
-> > More API information can be found in the document
-
-| name | type | description |
-| --- | --- | --- |
-| el | `HTMLElement` | container element |
-
-## Features
-
-* CommonMark + GFM Specifications
-   * Live Preview
-   * Scroll Sync
-   * Auto Indent
-   * Syntax Highlight
-        1. Markdown
-        2. Preview
-
-## Support Wrappers
-
-> * Wrappers
->    1. [x] React
->    2. [x] Vue
->    3. [ ] Ember
- */

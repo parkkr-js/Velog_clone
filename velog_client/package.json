@@ -26,6 +26,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/react-syntax-highlighter": "^15.5.11",
     "@uiw/react-md-editor": "^4.0.3",
+    "aws-sdk": "^2.1548.0",
     "axios": "^1.6.7",
     "gapi-script": "^1.2.0",
     "marked": "^11.1.1",
