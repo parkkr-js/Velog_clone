@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
 import { Editor } from "@toast-ui/react-editor";
@@ -7,43 +7,42 @@ import styled from "styled-components";
 import { Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import TagsEditor from "../atoms/TagsEditor";
+import { uploadToS3 } from "../../api/awsS3";
 
-
-const MarkdownEditor: React.FC = () => {
-
+const MarkdownEditor = () => {
   const goBack = () => {
     window.history.back();
   };
 
-
   return (
     <Container>
-
-          <Editor
-            height="100%"
-            initialValue="# 제목을 입력하세요"
-            // placeholder="당신의 이야기를 적어보세요..."
-            previewStyle={window.innerWidth > 1000 ? "vertical" : "tab"}
-            initialEditType="markdown"
-            hideModeSwitch={true}
-            toolbarItems={[
-              ["heading", "bold", "italic", "strike"],
-              ["hr", "quote"],
-              ["table", "image", "link"],
-              ["code", "codeblock"],
-              ["scrollSync"],
-            ]}
-            theme="dark"
-            usageStatistics={false}
-            hooks={{
-              addImageBlobHook: (blob: Blob, callback: Function) => {
-               console.log(blob);
-              },
-            }}
-            
-         
-
-       
+      <Editor
+        height="100%"
+        placeholder="내용을 입력하세요"
+        previewStyle={window.innerWidth > 1000 ? "vertical" : "tab"}
+        initialEditType="markdown"
+        hideModeSwitch={true}
+        toolbarItems={[
+          ["heading", "bold", "italic", "strike"],
+          ["hr", "quote"],
+          ["table", "image", "link"],
+          ["code", "codeblock"],
+          ["scrollSync"],
+        ]}
+        theme="dark"
+        usageStatistics={false}
+        hooks={{
+          addImageBlobHook: async (blob, callback) => {
+            try {
+              const file = blob; 
+              const uploadResult = await uploadToS3(file, true); 
+              const imageUrl = uploadResult.imageUrl; 
+              callback(imageUrl); 
+            } catch (error) {
+              console.error("Error uploading image: ", error);
+            }
+          },
+        }}
       />
       <TagsEditor />
       <NavBarContainer>
