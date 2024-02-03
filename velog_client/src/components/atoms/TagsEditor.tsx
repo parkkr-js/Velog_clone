@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import theme from "../../styles/theme";
+import { useSetRecoilState } from "recoil";
+import { articleState } from "../../state/atoms/articleState";
 
 type TagType = {
   id: number;
@@ -14,6 +16,7 @@ type FormData = {
 
 const TagsEditor: React.FC = () => {
   const [tags, setTags] = useState<TagType[]>([]);
+  const setArticleTags = useSetRecoilState(articleState);
   const [isComposing, setIsComposing] = useState(false);
   const { register, handleSubmit, setValue, watch } = useForm<FormData>();
   const tagInput = watch("tagInput");
@@ -22,14 +25,29 @@ const TagsEditor: React.FC = () => {
   const onSubmit: SubmitHandler<FormData> = ({ tagInput }) => {
     const newTag = tagInput.trim();
     if (newTag) {
-      setTags((prevTags) => [...prevTags, { id: Date.now(), name: newTag }]);
+      setTags((prevTags) => {
+        const updatedTags = [...prevTags, { id: Date.now(), name: newTag }];
+        setArticleTags((prevArticle) => ({
+          ...prevArticle,
+          tags: updatedTags.map(tag => tag.name), // 태그 이름만 저장
+        }));
+        return updatedTags;
+      });
       setValue("tagInput", "");
     }
   };
-
+  
   const removeTag = (id: number) => {
-    setTags((prevTags) => prevTags.filter((tag) => tag.id !== id));
+    setTags((prevTags) => {
+      const updatedTags = prevTags.filter((tag) => tag.id !== id);
+      setArticleTags((prevArticle) => ({
+        ...prevArticle,
+        tags: updatedTags.map(tag => tag.name), // 태그 이름만 저장
+      }));
+      return updatedTags;
+    });
   };
+
 
   return (
     <TagInputContainer onSubmit={handleSubmit(onSubmit)}>
