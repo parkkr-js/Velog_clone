@@ -39,7 +39,7 @@ const Logo = styled(VelogLogo)`
   width: 30px;
 `;
 
-const Text = styled.text`
+const Text = styled.p`
   font-size: 30px;
   font-family: "Gamja Flower", sans-serif;
   font-weight: ${theme.fontWeights.header0};

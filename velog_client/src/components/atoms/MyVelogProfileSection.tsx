@@ -30,13 +30,13 @@ const Div = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  width: 130px;
-  height: 130px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   margin-right: 20px;
 `;
 
-const ProfileExplain = styled.text`
+const ProfileExplain = styled.p`
   font-size: ${theme.fontSizes.button1};
   font-weight: ${theme.fontWeights.body2};
   color: ${theme.colors.text1};

@@ -26,7 +26,7 @@ const RedirectionAfterLoginPage: FC = () => {
     .catch((error) => {
       console.error("Fetching user info failed:", error);
     });
-  }, [setUserInfo, navigate]);
+  }, [setUserInfo]);
 
   if (!userInfo) {
     return (

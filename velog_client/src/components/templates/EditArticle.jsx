@@ -14,21 +14,69 @@ import { useState, useEffect, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import Template from "./index";
 
-const MarkdownEditor = () => {
+const EditArticle = () => {
   const API = process.env.REACT_APP_API_URL;
+  const { articleId } = useParams();
   const [uploadedImageKeys, setUploadedImageKeys] = useState([]);
   const currentUser = useRecoilValue(userState);
-  const publishedArticleState = useRecoilValue(articleState);
   const articleTags = useRecoilValue(articleState).tags;
   const setArticle = useSetRecoilState(articleState);
+  const article = useRecoilValue(articleState);
 
   const navigate = useNavigate();
+  //////////////기존 글 가져오기/////////////
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const response = await axios.get(
+          `${API}/api/post/articles/${articleId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        const publishedArticle = response.data;
+
+        const combinedContent = `${publishedArticle.title}\n${publishedArticle.content}`;
+
+        const previousArticle = {
+          articleId: publishedArticle.postId,
+          title: publishedArticle.title,
+          content: combinedContent,
+          memberId: publishedArticle.member.memberId,
+          nickname: publishedArticle.member.nickname,
+          profileImage: publishedArticle.member.profileImage,
+          thumbnail: publishedArticle.thumbnail,
+          date: publishedArticle.modifiedAt,
+          commentCount: publishedArticle.commentCount,
+          likeCount: publishedArticle.likeCount,
+          tags: publishedArticle.tagList,
+        };
+        setArticle(previousArticle);
+        console.log("Fetched article: ", previousArticle);
+      } catch (error) {
+        console.error("Error fetching article: ", error);
+      }
+    };
+
+    if (articleId) {
+      fetchArticle();
+    }
+  }, [articleId]);
+
+  useEffect(() => {
+    if (editorRef.current && article.content) {
+      const instance = editorRef.current.getInstance();
+
+      instance.setMarkdown(article.content);
+    }
+  }, [article.content]);
 
   const { control, handleSubmit, watch } = useForm({
     defaultValues: {
-      markdownContent: "",
+      markdownContent: article.content,
     },
   });
   const editorRef = useRef(null);
@@ -54,56 +102,41 @@ const MarkdownEditor = () => {
     }
   };
 
-  const handlePublish = async () => {
-    const articleContent = editorRef.current?.getInstance().getMarkdown();
+  ////수정/////////////
+  const handleUpdate = async () => {
+    const articleContent = editorRef.current.getInstance().getMarkdown();
 
     const firstLineEndIndex = articleContent.indexOf("\n");
     const title =
       firstLineEndIndex !== -1
         ? articleContent.substring(0, firstLineEndIndex)
         : articleContent;
-    // 제목으로 사용된 첫 줄을 콘텐츠에서 제거
-    const contentWithoutTitle = firstLineEndIndex !== -1 ? articleContent.substring(firstLineEndIndex + 1) : "";
+    const contentWithoutTitle =
+      firstLineEndIndex !== -1
+        ? articleContent.substring(firstLineEndIndex + 1)
+        : "";
 
     const articleData = {
       title: title.trim(),
       content: contentWithoutTitle,
-      thumbnail: uploadedImageKeys[0]?.url,
+      thumbnail: uploadedImageKeys[0]?.url || article.thumbnail,
       tagList: articleTags,
-      memberId: currentUser.memberId,
     };
 
     try {
-      const response = await axios.post(`${API}/api/post/create`, articleData, {
+      await axios.patch(`${API}/api/post/update/${articleId}`, articleData, {
         withCredentials: true,
       });
-      const publishedArticle = response.data;
-
-      const updatedArticle = {
-        articleId: publishedArticle.postId,
-        title: publishedArticle.title,
-        content: publishedArticle.content,
-        memberId: publishedArticle.member.memberId,
-        nickname: publishedArticle.member.nickname,
-        profileImage: publishedArticle.member.profileImage,
-        thumbnail: publishedArticle.thumbnail,
-        date: publishedArticle.modifiedAt,
-        commentCount: publishedArticle.commentCount,
-        likeCount: publishedArticle.likeCount,
-        tags: publishedArticle.tagList,
-      };
-
-      setArticle(updatedArticle);
-      console.log("Article published successfully");
-      setUploadedImageKeys([]);
-      navigate(`/postdetail/${publishedArticle.postId}`);
+      console.log("Article updated successfully");
+      console.log("article: articleData", articleData);
+      navigate(`/postdetail/${articleId}`);
     } catch (error) {
-      console.error("Error publishing article: ", error);
+      console.error("Error updating article: ", error);
     }
   };
 
   const handleGoBack = () => {
-    if (window.confirm("작성을 취소하시겠습니까? 저장되지 않습니다.")) {
+    if (window.confirm("작성을 취소하시겠습니까? 변경사항은 저장되지 않습니다.")) {
     if (uploadedImageKeys.length > 0) {
       const keys = uploadedImageKeys.map((item) => item.key);
       deleteFilesInS3(keys)
@@ -116,60 +149,62 @@ const MarkdownEditor = () => {
   };
 
   return (
-    <Container onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="markdownContent"
-        control={control}
-        render={({ field }) => (
-          <Editor
-            height="100%"
-            placeholder="내용을 입력하세요"
-            previewStyle={window.innerWidth > 1000 ? "vertical" : "tab"}
-            initialEditType="markdown"
-            hideModeSwitch={true}
-            toolbarItems={[
-              ["heading", "bold", "italic", "strike"],
-              ["hr", "quote"],
-              ["table", "image", "link"],
-              ["code", "codeblock"],
-              ["scrollSync"],
-            ]}
-            theme="dark"
-            usageStatistics={false}
-            hooks={{
-              addImageBlobHook: addImageBlobHook,
-            }}
-            {...field}
-            ref={editorRef}
-            initialValue={watch("markdownContent")}
-            onChange={() =>
-              field.onChange(editorRef.current.getInstance().getMarkdown())
-            }
-          />
-        )}
-      />
+    <>
+      <Template />
+      <Container onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="markdownContent"
+          control={control}
+          render={({ field }) => (
+            <Editor
+              height="100%"
+              placeholder="내용을 입력하세요"
+              previewStyle={window.innerWidth > 1000 ? "vertical" : "tab"}
+              initialEditType="markdown"
+              hideModeSwitch={true}
+              toolbarItems={[
+                ["heading", "bold", "italic", "strike"],
+                ["hr", "quote"],
+                ["table", "image", "link"],
+                ["code", "codeblock"],
+                ["scrollSync"],
+              ]}
+              theme="dark"
+              usageStatistics={false}
+              hooks={{
+                addImageBlobHook: addImageBlobHook,
+              }}
+              {...field}
+              ref={editorRef}
+              initialValue={watch("markdownContent")}
+              onChange={() =>
+                field.onChange(editorRef.current.getInstance().getMarkdown())
+              }
+            />
+          )}
+        />
 
-      <TagsEditor />
-      <NavBarContainer>
-        <StyledOutBtn
-          onClick={handleGoBack}
-          variant="contained"
-          startIcon={<ArrowBackIcon />}
-        >
-          나가기
-        </StyledOutBtn>
-        <Box>
-          <StyledSaveBtn variant="contained">임시저장</StyledSaveBtn>
-          <StyledPostBtn onClick={handlePublish} variant="contained">
-            출간하기
-          </StyledPostBtn>
-        </Box>
-      </NavBarContainer>
-    </Container>
+        <TagsEditor />
+        <NavBarContainer>
+          <StyledOutBtn
+            onClick={handleGoBack}
+            variant="contained"
+            startIcon={<ArrowBackIcon />}
+          >
+            나가기
+          </StyledOutBtn>
+          <Box>
+            <StyledPostBtn onClick={handleUpdate} variant="contained">
+              수정하기
+            </StyledPostBtn>
+          </Box>
+        </NavBarContainer>
+      </Container>
+    </>
   );
 };
 
-export default MarkdownEditor;
+export default EditArticle;
 
 const Container = styled.div`
   width: 100%;

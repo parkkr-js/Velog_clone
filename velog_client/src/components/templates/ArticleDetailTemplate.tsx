@@ -10,102 +10,177 @@ import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
 import Prism from "prismjs";
 import MyVelogProfileSection from "../atoms/MyVelogProfileSection";
+import { articleState } from "../../state/atoms/articleState";
+import { Article } from "../../state/atoms/articleState";
+import { Typography } from "@mui/material";
+import { userState } from "../../state/atoms/userState";
+import { useRecoilValue } from "recoil";
+import Comment from "../molecules/Comment";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
-interface ArticleDetailTemplateProps {
-  card: Card | null;
-}
+// interface ArticleDetailTemplateProps {
+//   article: Article | null;
+// }
 
-const markdownText = `
-* ![image](https://uicdn.toast.com/toastui/img/tui-editor-bi.png)
+const cleanMarkdownCharacters = (title: string) => {
+  return title.replace(/^[\s#*->]+/, "");
+};
 
-# 마크다운 적용한 컨텐츠 내용
+const ArticleDetailTemplate: React.FC = () => {
+  const navigate = useNavigate();
+  const user = useRecoilValue(userState);
 
-목데이터 ~~continually~~ evolved to **receive 10k GitHub ⭐️ Stars**.
+  const API = process.env.REACT_APP_API_URL;
+  const { articleId } = useParams();
+  const setArticle = useSetRecoilState(articleState);
+  const article = useRecoilValue(articleState);
 
-## 부제목
-한글확인 테스트 한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트한글확인 테스트 
+ const handleDelete = async () => {
+    if (window.confirm("이 글을 삭제하시겠습니까?")) {
+      try {
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}/api/post/delete/${article.articleId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("Delete successful");
+        navigate("/posts");
+      } catch (error) {
+        console.error("Error deleting article: ", error);
+        alert("글을 삭제하는 동안 오류가 발생했습니다.");
+      }
+    }
+  };
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const response = await axios.get(
+          `${API}/api/post/articles/${articleId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        const publishedArticle = response.data;
+
+        const updatedArticle = {
+          articleId: publishedArticle.postId,
+          title: publishedArticle.title,
+          content: publishedArticle.content,
+          memberId: publishedArticle.member.memberId,
+          nickname: publishedArticle.member.nickname,
+          profileImage: publishedArticle.member.profileImage,
+          thumbnail: publishedArticle.thumbnail,
+          date: publishedArticle.modifiedAt,
+          commentCount: publishedArticle.commentCount,
+          likeCount: publishedArticle.likeCount,
+          tags: publishedArticle.tagList,
+        };
+        setArticle(updatedArticle);
+        console.log("Fetched article: ", article);
+      } catch (error) {
+        console.error("Error fetching article: ", error);
+      }
+    };
+
+    if (articleId) {
+      fetchArticle();
+    }
+  }, [articleId]);
 
 
-\`\`\`js
-const editor = new Editor(options);
-\`\`\`
-
-> See the table below for default options
-> > More API information can be found in the document
-
-| name | type | description |
-| --- | --- | --- |
-| el | \`HTMLElement\` | container element |
-
-## Features
-
-* CommonMark + GFM Specifications
-   * Live Preview
-   * Scroll Sync
-   * Auto Indent
-   * Syntax Highlight
-        1. Markdown
-        2. Preview
-
-## Support Wrappers
-
-> * Wrappers
->    1. [x] React
->    2. [x] Vue
->    3. [ ] Ember.
-`;
-
-const ArticleDetailTemplate: React.FC<ArticleDetailTemplateProps> = ({
-  card,
-}) => {
-  if (!card) {
+  if (!article) {
     return <div>Loading...</div>;
   }
 
+  const formatDate = (dateString: string) => {
+    const [datePart] = dateString.split("T");
+    const parts = datePart.split("-");
+    if (parts.length === 3) {
+      const year = parts[0];
+      const month = parts[1];
+      const day = parts[2];
+
+      return `${year}년 ${month}월 ${day}일`;
+    }
+    return dateString;
+  };
+
+  const handleEdit = () => {
+    console.log("Edit");
+    navigate(`/write/${article.articleId}`);
+  };
+
+ 
+
   return (
     <Div>
-      <Title>{card.title}</Title>
+      <Title>
+        {article.title ? cleanMarkdownCharacters(article.title) : "제목 없음"}
+      </Title>
       <RowDiv>
         <RowDiv2>
-          <UserName>{card.author}</UserName>
-          <Date>{formatDate(card.date)}</Date>
+          <UserName>{article.nickname}</UserName>
+          <Date>
+            {article.date ? formatDate(article.date) : "날짜 정보 없음"}
+          </Date>
         </RowDiv2>
         <BtnDiv>
-          <Btn>수정</Btn>
-          <Btn>삭제</Btn>
+          {user && article.memberId === user.memberId && (
+            <>
+              <Btn onClick={handleEdit}>수정</Btn>
+              <Btn onClick={handleDelete}>삭제</Btn>
+            </>
+          )}
         </BtnDiv>
       </RowDiv>
       <TagContainer>
-        {card.tags.map((tag, index) => (
+        {article.tags?.map((tag, index) => (
           <Tag key={index}>{tag}</Tag>
         ))}
       </TagContainer>
-      <Image src={card.imageUrl} alt={card.title} />
+
+      {article.thumbnail && (
+        <Image src={article.thumbnail} alt={article.title} />
+      )}
       <Content>
         <Viewer
           width="100%"
           plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-          initialValue={markdownText}
+          initialValue={article.content}
           theme="dark"
         />
       </Content>
       <MyVelogProfileSection />
       <Br />
+      <Comment
+        comment={{
+          id: 1,
+          userProfile: "프로필 이미지 URL",
+          nickname: "유저 닉네임",
+          content: "댓글 내용",
+          date: "2023-01-01T12:00:00Z",
+          replies: [
+            {
+              id: 2,
+              userProfile: "대댓글 유저 프로필 이미지 URL",
+              nickname: "대댓글 유저 닉네임",
+              content: "대댓글 내용",
+              date: "2023-01-02T15:00:00Z",
+            },
+            // 추가 대댓글...
+          ],
+        }}
+      />
     </Div>
   );
 };
 
 export default ArticleDetailTemplate;
-
-function formatDate(date: Date) {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  return `${year}년 ${month.toString().padStart(2, "0")}월 ${day
-    .toString()
-    .padStart(2, "0")}일`;
-}
 
 const Div = styled.div`
   display: flex;
@@ -149,16 +224,15 @@ const UserName = styled.div`
   color: ${theme.colors.text1};
 `;
 
-const Title = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: baseline;
-  align-items: center;
+const Title = styled(Typography)`
   font-size: ${theme.fontSizes.header1};
   font-weight: ${theme.fontWeights.header0};
   color: ${theme.colors.text1};
   width: 100%;
   padding-bottom: 32px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const Date = styled.div`
@@ -186,8 +260,8 @@ const Content = styled.div`
 `;
 
 const Image = styled.img`
-  width: auto;
-  height: auto;
+  width: 50%;
+  height: 50%;
 `;
 
 const Btn = styled.button`

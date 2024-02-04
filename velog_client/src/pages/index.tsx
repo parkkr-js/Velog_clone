@@ -2,6 +2,7 @@ import styled from "styled-components";
 import theme from "../styles/theme";
 import Template from "../components/templates";
 import DockBar from "../components/organisms/DockBar";
+import NavBar from "../components/organisms/NavBar";
 
 export default function Home() {
   return (
