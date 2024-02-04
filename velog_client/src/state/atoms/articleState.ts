@@ -5,6 +5,7 @@ export interface Article {
   title: string;
   memberId: number | null;
   content: string;
+  thumbnail: string;
   date: Date;
   commentCount: number;
   likeCount: number;
@@ -17,6 +18,7 @@ export const articleState = atom<Article>({
     {
       articleId: null,
       title: "",
+      thumbnail: "",
       memberId: null,
       content: "",
       date: new Date(),

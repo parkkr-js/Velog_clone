@@ -36,21 +36,26 @@ const MarkdownEditor = () => {
   const addImageBlobHook = async (blob, callback) => {
     try {
       const uploadResult = await uploadToS3(blob, true);
-      const fileName = uploadResult.fileName;
-      setUploadedImageKeys((prev) => [...prev, uploadResult.Key]);
-      callback(fileName);
+      const imageUrl = uploadResult.imageUrl;
+      setUploadedImageKeys((prev) => [
+        ...prev,
+        { url: imageUrl, key: uploadResult.key },
+      ]);
+      console.log("key: ", uploadResult.key);
+      console.log("imageUrl: ", imageUrl);
+      callback(imageUrl);
     } catch (error) {
       console.error("Error uploading image: ", error);
     }
   };
 
   const handlePublish = async () => {
-    // '출간하기' 버튼을 클릭했을 때의 로직
     const articleContent = editorRef.current?.getInstance().getMarkdown();
 
     const articleData = {
       title: "글 제목",
       content: articleContent,
+      thumbnail: uploadedImageKeys[0].imageUrl,
       tagList: articleTags,
       memberId: currentUser.memberId,
     };
@@ -77,7 +82,8 @@ const MarkdownEditor = () => {
   useEffect(() => {
     return () => {
       if (uploadedImageKeys.length > 0) {
-        deleteFilesInS3(uploadedImageKeys)
+        const keys = uploadedImageKeys.map((item) => item.key);
+        deleteFilesInS3(keys)
           .then(() => console.log("이미지 삭제 완료"))
           .catch(console.error);
       }

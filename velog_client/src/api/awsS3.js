@@ -8,31 +8,30 @@ AWS.config.update({
 const s3 = new AWS.S3();
 
 const uploadToS3 = async (file, isImage = false) => {
-    const returnData = {};
-    // 파일 확장자를 포함한 전체 파일 이름을 생성합니다.
-    const fileName = `${Date.now()}_${file.name}`;
-    const params = {
-      Bucket: process.env.REACT_APP_S3_BUCKET,
-      Key: fileName, // 생성한 파일 이름을 사용합니다.
-      Body: file,
-    };
-  
-    try {
-      const uploadResult = await s3.upload(params).promise();
-      returnData["downloadLink"] = uploadResult.Location;
-      returnData["fileName"] = fileName; // 파일 이름을 반환 데이터에 추가합니다.
-      if (isImage) {
-        const imageUrl = `https://${process.env.REACT_APP_S3_BUCKET}.s3.amazonaws.com/${uploadResult.Key}`;
-        returnData["imageUrl"] = imageUrl;
-      }
-    } catch (error) {
-      console.error("Error uploading files to S3:", error);
-      throw error;
-    }
-  
-    return returnData;
+  const returnData = {};
+  const fileName = "velog/" + `${Date.now()}.${file.name.split(".").pop()}`;
+  const params = {
+    Bucket: process.env.REACT_APP_S3_BUCKET,
+    Key: fileName, 
+    Body: file,
   };
-  
+
+  try {
+    const uploadResult = await s3.upload(params).promise();
+    returnData["key"] = uploadResult.Key;
+    returnData["downloadLink"] = uploadResult.Location;
+    if (isImage) {
+      const imageUrl = `https://${process.env.REACT_APP_S3_BUCKET}.s3.amazonaws.com/${uploadResult.Key}`;
+      returnData["imageUrl"] = imageUrl;
+    }
+  } catch (error) {
+    console.error("Error uploading files to S3:", error);
+    throw error;
+  }
+
+  return returnData;
+};
+
 
 const deleteFilesInS3 = async (fileKeys) => {
   try {
