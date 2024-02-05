@@ -4,17 +4,38 @@ import { Card as MuiCard, CardActions, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import styled from "styled-components";
 import theme from "../../styles/theme";
+import { useNavigate } from "react-router-dom";
 
 const CardTemplate: React.FC<{ card: CardType }> = ({ card }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/postdetail/${card.id}`);
+  };
+  const cleanMarkdownCharacters = (title: string) => {
+    return title.replace(/^[\s#*->]+/, "");
+  };
+
   return (
-    <StyledCard>
-      <CardImage src={card.imageUrl} />
+    <StyledCard onClick={handleCardClick}>
+      <CardImage
+        src={
+          card.imageUrl
+            ? card.imageUrl
+            : "https://64.media.tumblr.com/9a0b871fb2167a4cb290378340ca0fcf/c6d1989e69679318-a2/s400x600/d0b9e100cff357afd107ce9c2e62c28fa7e8b055.gif"
+        }
+        alt={card.title}
+      />
+
       <ContentDiv>
-        <Title>{card.title}</Title>
+        <Title>
+          {" "}
+          {card.title ? cleanMarkdownCharacters(card.title) : "제목 없음"}
+        </Title>
         <Content>{card.content}</Content>
       </ContentDiv>
       <DateAndComment>
-        <Date>{formatDate(card.date)}</Date>
+        <Date>{card.date}</Date>
         <Dot>·</Dot>
         <CommentCount>{card.commentCount}개의 댓글</CommentCount>
       </DateAndComment>
@@ -36,26 +57,17 @@ const CardTemplate: React.FC<{ card: CardType }> = ({ card }) => {
 
 export default CardTemplate;
 
-function formatDate(date: Date) {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  return `${year}년 ${month.toString().padStart(2, "0")}월 ${day
-    .toString()
-    .padStart(2, "0")}일`;
-}
-
 const StyledCard = styled(MuiCard)`
   display: flex;
   flex-direction: column;
+  min-width: 300px;
   height: 375px;
   justify-content: space-between;
   background-color: ${theme.colors.background2};
   transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 
   &:hover {
-    cursor: pointer;  
+    cursor: pointer;
     box-shadow: 0px 4px 20px ${theme.colors.secondary};
     transform: translateY(-10px);
   }

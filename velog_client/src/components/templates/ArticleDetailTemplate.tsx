@@ -39,7 +39,7 @@ const ArticleDetailTemplate: React.FC = () => {
   const setArticle = useSetRecoilState(articleState);
   const article = useRecoilValue(articleState);
 
- const handleDelete = async () => {
+  const handleDelete = async () => {
     if (window.confirm("이 글을 삭제하시겠습니까?")) {
       try {
         await axios.delete(
@@ -92,7 +92,6 @@ const ArticleDetailTemplate: React.FC = () => {
     }
   }, [articleId]);
 
-
   if (!article) {
     return <div>Loading...</div>;
   }
@@ -114,8 +113,6 @@ const ArticleDetailTemplate: React.FC = () => {
     console.log("Edit");
     navigate(`/write/${article.articleId}`);
   };
-
- 
 
   return (
     <Div>
@@ -144,9 +141,15 @@ const ArticleDetailTemplate: React.FC = () => {
         ))}
       </TagContainer>
 
-      {article.thumbnail && (
-        <Image src={article.thumbnail} alt={article.title} />
-      )}
+      <Image
+        src={
+          article.thumbnail
+            ? article.thumbnail
+            : "https://64.media.tumblr.com/9a0b871fb2167a4cb290378340ca0fcf/c6d1989e69679318-a2/s400x600/d0b9e100cff357afd107ce9c2e62c28fa7e8b055.gif"
+        }
+        alt={article.title}
+      />
+
       <Content>
         <Viewer
           width="100%"
@@ -163,14 +166,14 @@ const ArticleDetailTemplate: React.FC = () => {
           userProfile: "프로필 이미지 URL",
           nickname: "유저 닉네임",
           content: "댓글 내용",
-          date: "2023-01-01T12:00:00Z",
+          date: "2024-02-01T12:00:00Z",
           replies: [
             {
               id: 2,
               userProfile: "대댓글 유저 프로필 이미지 URL",
               nickname: "대댓글 유저 닉네임",
               content: "대댓글 내용",
-              date: "2023-01-02T15:00:00Z",
+              date: "2024-02-05T15:00:00Z",
             },
             // 추가 대댓글...
           ],

@@ -12,8 +12,6 @@ import { Card as CardType } from "../../state/atoms/cardState";
 import theme from "../../styles/theme";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useNavigate } from "react-router-dom";
-import { userState } from "../../state/atoms/userState";
-import { useRecoilValue } from "recoil";
 
 type CardProps = {
   card: CardType;
@@ -21,26 +19,31 @@ type CardProps = {
 
 const MyVelogCard: React.FC<CardProps> = ({ card }) => {
   const navigate = useNavigate();
-  const user = useRecoilValue(userState);
 
-  const formatDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return date.toLocaleDateString("ko-KR", options);
-  };
   const handleCardClick = () => {
-    navigate(`/@${user.name}/${card.id}`);
+    navigate(`/postdetail/${card.id}`);
   };
-  
+
+  const cleanMarkdownCharacters = (title: string) => {
+    return title.replace(/^[\s#*->]+/, "");
+  };
 
   return (
     <StyledCard onClick={handleCardClick}>
-      <CardMedia image={card.imageUrl} title={card.title} />
+      <CardMedia
+        image={
+          card.imageUrl
+            ? card.imageUrl
+            : "https://64.media.tumblr.com/9a0b871fb2167a4cb290378340ca0fcf/c6d1989e69679318-a2/s400x600/d0b9e100cff357afd107ce9c2e62c28fa7e8b055.gif"
+        }
+        title={card.title}
+      />
+
       <StyledCardContent>
-        <Title variant="h5">{card.title}</Title>
+        <Title variant="h5">
+          {" "}
+          {card.title ? cleanMarkdownCharacters(card.title) : "제목 없음"}
+        </Title>
         <Content variant="body2" color="text.secondary">
           {card.content.length > 150
             ? card.content.substring(0, 150) + "..."
@@ -52,7 +55,7 @@ const MyVelogCard: React.FC<CardProps> = ({ card }) => {
           ))}
         </TagsContainer>
         <InfoContainer>
-          <DateCommentLikeText>{formatDate(card.date)}</DateCommentLikeText>
+          <DateCommentLikeText>{card.date}</DateCommentLikeText>
           <DateCommentLikeText>{`${card.commentCount}개의 댓글`}</DateCommentLikeText>
           <DateCommentLikeText>
             <FavoriteIcon sx={{ fontSize: 20 }} />
@@ -79,6 +82,10 @@ const StyledCard = styled(MuiCard)`
   padding-bottom: 60px;
   gap: 35px;
   background-color: transparent;
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-10px);
+  }
 
   &:last-child {
     border-bottom: none;

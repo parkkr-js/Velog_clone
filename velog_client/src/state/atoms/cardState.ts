@@ -5,9 +5,9 @@ export interface Card {
   title: string;
   author: string;
   content: string;
-  date: Date;
-  commentCount: number;
-  likeCount: number;
+  date: string;
+  commentCount: string;
+  likeCount: string;
   profileImageUrl: string;
   imageUrl: string;
   tags: string[];

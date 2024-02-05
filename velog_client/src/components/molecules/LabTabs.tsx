@@ -85,6 +85,7 @@ export default LabTabs;
 
 const StyledBox = styled(Box)`
   width: 400px;
+  height: 55px;
   background-color: ${theme.colors.background1};
   color: ${theme.colors.text1};
 `;

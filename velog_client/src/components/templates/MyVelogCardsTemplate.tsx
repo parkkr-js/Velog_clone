@@ -6,7 +6,6 @@ import MyVelogTags from "../atoms/MyVelogTags";
 import MyVelogSearchBar from "../atoms/MyVelogSearchBar";
 import MyVelogLabTabs from "../molecules/MyVelogLabTab";
 
-
 export const MyVelogCardsTemplate: React.FC = () => {
   return (
     <Div>
@@ -34,6 +33,7 @@ const RowDiv = styled.div`
   flex-direction: row;
   align-items: start;
   justify-content: center;
+  background-color: transparent;
 `;
 
 const Box = styled.div`
@@ -43,4 +43,3 @@ const Box = styled.div`
   border-radius: 8px;
   background-color: transparent;
 `;
-

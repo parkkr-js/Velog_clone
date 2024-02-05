@@ -1,61 +1,83 @@
-import React, { useEffect, useState, useCallback, FC } from "react";
+import React, { useEffect, useState, FC } from "react";
+import axios from "axios"; // axios 추가
 import CardTemplate from "../templates/CardTemplate";
 import { useInView } from "react-intersection-observer";
 import styled, { keyframes } from 'styled-components';
-import { CardData as InitialCardData } from "../../assets/data/CardData";
-import { Card } from "../../state/atoms/cardState";
-import { useRecoilState } from "recoil";
+import { Card } from "../../state/atoms/cardState"; // 사용하는 타입 수정
+import { useRecoilState, useRecoilValue } from "recoil";
 import { tabPanelState } from "../../state/atoms/tabPanelState";
 import theme from "../../styles/theme";
 
-const pageSize = 1;
+const pageSize = 1; 
 
 const Cards: FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [hasMore, setHasMore] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(0);
+  const [hasMore, setHasMore] = useState<boolean>(true); 
   const [ref, inView] = useInView({ threshold: 1 });
-  const [selectedTab] = useRecoilState(tabPanelState);
+  const API = process.env.REACT_APP_API_URL;
+  const selectedTab = useRecoilValue(tabPanelState);
 
-  const sortCards = useCallback(() => {
-    let sortedCards = [...InitialCardData];
-    if (selectedTab === "1") {
-      sortedCards.sort((a, b) => b.likeCount - a.likeCount);
-    } else if (selectedTab === "2") {
-      sortedCards.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      );
+  const formatDate = (dateString: string) => {
+    const [datePart] = dateString.split("T");
+    const parts = datePart.split("-");
+    if (parts.length === 3) {
+      const year = parts[0];
+      const month = parts[1];
+      const day = parts[2];
+
+      return `${year}년 ${month}월 ${day}일`;
     }
-    return sortedCards;
-  }, [selectedTab]);
+    return dateString;
+  };
 
   useEffect(() => {
-    const sortedCards = sortCards();
-    setCards(sortedCards.slice(0, pageSize));
-    setPage(1);
-    setHasMore(sortedCards.length > pageSize);
-  }, [selectedTab, sortCards]);
+    const loadCards = async () => {
+      try {
 
-  const loadMoreCards = useCallback(() => {
-    if (hasMore) {
-      const nextPage = page + 1;
-      const sortedCards = sortCards();
-      const nextCards = sortedCards.slice(page * pageSize, nextPage * pageSize);
-      setCards((prevCards) => [...prevCards, ...nextCards]);
-      setPage(nextPage);
+        const sortBy = selectedTab === "1" ? 'likes' : 'modifiedAt';
+        const direction = selectedTab === "1" ? 'desc' : 'desc'; 
+  
 
-      if (nextPage * pageSize >= sortedCards.length) {
-        setHasMore(false);
+        const requestUrl = `${API}/api/post/articles?pageSize=${pageSize}&page=${page}`;
+  
+        const response = await axios.get(requestUrl);
+        const data = response.data;
+        const itemsArray = data.content || [];
+        
+        const transformedData = itemsArray.map((item: any) => ({
+          id: item.postId,
+          title: item.title,
+          content: item.content,
+          author: item.member.nickname,
+          date: formatDate(item.modifiedAt),
+          likeCount: item.likeCount,
+          commentCount: item.commentCount,
+          imageUrl: item.thumbnail,
+          tags: item.tagList,
+          profileImageUrl: item.member.profileImage,
+        }));
+        console.log("Transformed data before setting cards: ", transformedData); // 데이터 변환 확인
+        setCards((prevCards) => [...prevCards, ...transformedData]);
+        
+        setPage((prevPage) => prevPage + 1);
+
+        console.log("Fetched cards: ", cards);
+        if (itemsArray.length === 0) {
+          setHasMore(false);
+        }
+      } catch (error) {
+        console.error("Failed to fetch cards:", error);
       }
-    }
-  }, [hasMore, page, sortCards]);
-
-  useEffect(() => {
+    };
+  
     if (inView && hasMore) {
-      loadMoreCards();
+      loadCards();
     }
-  }, [inView, loadMoreCards, hasMore]);
-
+  }, [inView, hasMore, page, selectedTab]); 
+  
+  
+ 
   return (
     <CardGrid>
       {cards.map((card: Card) => (
@@ -68,10 +90,12 @@ const Cards: FC = () => {
 
 export default Cards;
 
+
 const CardGrid = styled.div`
   display: grid;
   justify-content: space-between;
   align-content: space-between;
+  padding-top: 20px;
   grid-gap: 45px;
   grid-template-columns: repeat(5, 1fr);
   overflow-y: auto;

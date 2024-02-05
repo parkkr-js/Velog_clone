@@ -1,21 +1,33 @@
+import { useLocation } from 'react-router-dom'; // Import useLocation
 import styled from "styled-components";
 import theme from "../../styles/theme";
 import { userState } from "../../state/atoms/userState";
+import { articleState } from "../../state/atoms/articleState";
 import { useRecoilValue } from "recoil";
 
 const MyVelogProfileSection: React.FC = () => {
-  const DemoUser = useRecoilValue(userState);
+  const location = useLocation(); 
+  const user = useRecoilValue(userState);
+  const article = useRecoilValue(articleState);
+
+  const isPostPage = location.pathname === '/posts';
+
+  const profileImage = isPostPage ? user.profileImgUrl : article.profileImage;
+  const nickname = isPostPage ? user.name : article.nickname;
+  const profileExplain = "프로필 설명 글"; 
+
   return (
     <Div>
-      <ProfileImage src={DemoUser.profileImgUrl} />
+      <ProfileImage src={profileImage} />
       <ProfileInfo>
-        <ProfileName>{DemoUser.name}</ProfileName>
-        <ProfileExplain>아직 설정 안함</ProfileExplain>
+        <ProfileName>{nickname}</ProfileName>
+        <ProfileExplain>{profileExplain}</ProfileExplain>
       </ProfileInfo>
     </Div>
   );
 };
 export default MyVelogProfileSection;
+
 
 const Div = styled.div`
   display: flex;
