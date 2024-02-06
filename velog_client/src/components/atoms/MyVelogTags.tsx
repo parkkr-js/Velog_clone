@@ -44,7 +44,6 @@ const MyVelogTags: React.FC = () => {
 
   const handleTagClick = (tag: string) => {
     setSelectedTag(tag);
-    // 여기에서 선택된 태그에 따라 게시물을 필터링하는 로직을 구현할 수 있습니다.
   };
 
   return (
