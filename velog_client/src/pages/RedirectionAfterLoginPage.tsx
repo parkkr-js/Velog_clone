@@ -4,30 +4,24 @@ import styled, { keyframes } from "styled-components";
 import theme from "../styles/theme";
 import { userState } from "../state/atoms/userState";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Axios 라이브러리를 임포트합니다.
 
 const RedirectionAfterLoginPage: FC = () => {
   const API = process.env.REACT_APP_API_URL;
   const [userInfo, setUserInfo] = useRecoilState(userState);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${API}/api/userinfo`, {
-      credentials: "include", 
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("유저정보 가져오기 실패했다");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      setUserInfo(data); 
-      navigate("/"); 
-    })
-    .catch((error) => {
-      console.error("Fetching user info failed:", error);
-    });
-  }, [setUserInfo]);
+    axios
+      .get(`${API}/api/userinfo`, { withCredentials: true })
+      .then((response) => {
+        setUserInfo(response.data);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Fetching user info failed:", error);
+      });
+  }, [setUserInfo, navigate, API]);
 
   if (!userInfo) {
     return (
@@ -37,7 +31,7 @@ const RedirectionAfterLoginPage: FC = () => {
     );
   }
 
-
+  // 나머지 컴포넌트 구현...
 };
 
 export default RedirectionAfterLoginPage;
