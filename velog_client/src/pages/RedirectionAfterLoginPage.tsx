@@ -6,11 +6,12 @@ import { userState } from "../state/atoms/userState";
 import { useNavigate } from "react-router-dom";
 
 const RedirectionAfterLoginPage: FC = () => {
+  const API = process.env.REACT_APP_API_URL;
   const [userInfo, setUserInfo] = useRecoilState(userState);
   const navigate = useNavigate(); 
 
   useEffect(() => {
-    fetch("/api/userinfo", {
+    fetch(`${API}/api/userinfo`, {
       credentials: "include", 
     })
     .then((response) => {
