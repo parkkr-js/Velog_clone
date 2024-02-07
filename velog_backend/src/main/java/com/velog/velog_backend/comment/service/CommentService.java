@@ -12,6 +12,8 @@
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Service;
 //
+//import java.util.ArrayList;
+//
 //@RequiredArgsConstructor
 //@Service
 //public class CommentService {
@@ -22,38 +24,67 @@
 //
 //    @Transactional
 //    public CommentResponseDTO createComment(CommentRequestDTO requestDto) {
-//
-//        Member member = userRepository.findById(requestDto.getUserId())
-//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
-//
-//        // 게시글(Post) 존재 여부 확인
 //        Post post = postRepository.findById(requestDto.getPostId())
-//                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
-//
-//        // 부모 댓글(Parent Comment) 유효성 확인
-//        Comment parentComment = null;
+//                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+//        Member member = memberRepository.findById(requestDto.getMemberId())
+//                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+//        Comment parent = null;
 //        if (requestDto.getParentId() != null) {
-//            parentComment = commentRepository.findById(requestDto.getParentId())
-//                    .orElseThrow(() -> new IllegalArgumentException("부모 댓글이 존재하지 않습니다."));
+//            parent = commentRepository.findById(requestDto.getParentId())
+//                    .orElseThrow(() -> new IllegalArgumentException("Parent comment not found"));
 //        }
 //
-//        // 댓글 생성
 //        Comment comment = Comment.builder()
 //                .member(member)
-//                .content(requestDto.getContent())
 //                .post(post)
-//                .parent(parentComment) // 부모 댓글 설정
+//                .content(requestDto.getContent())
+//                .parent(parent)
 //                .build();
+//        Comment savedComment = commentRepository.save(comment);
 //
-//        comment = commentRepository.save(comment);
-//
-//        return CommentResponseDTO.builder()
-//                .username(member.getFirstName() + member.getLastName())
-//                .commentId(comment.getId())
-//                .content(comment.getContent())
-//                .postId(post.getId())
-//                .parentId(parentComment != null ? parentComment.getId() : null)
-//                .build();
+//        return new CommentResponseDTO(
+//                savedComment.getId(),
+//                member.getId(),
+//                member.getName(), // 가정: Member 엔티티에 getName() 메서드가 있다고 가정
+//                post.getId(),
+//                savedComment.getContent(),
+//                savedComment.getCreatedAt(),
+//                new ArrayList<>() // 초기 대댓글 리스트는 비어있음
+//        );
 //    }
+//
+//
+//    @Transactional
+//    public void deleteComment(Long commentId) {
+//        Comment comment = commentRepository.findById(commentId)
+//                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+//        commentRepository.delete(comment);
+//        // 자식 댓글도 삭제되도록, JPA의 CascadeType.REMOVE 또는 orphanRemoval=true 옵션을 활용
+//    }
+//
+//
+//    @Transactional
+//    public CommentResponseDTO updateComment(Long commentId, CommentRequestDTO requestDto) {
+//        Comment comment = commentRepository.findById(commentId)
+//                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+//        comment.updateContent(requestDto.getContent()); // Comment 엔티티 내에 내용을 업데이트하는 메소드 추가 필요
+//
+//        return new CommentResponseDTO(
+//                comment.getId(),
+//                comment.getMember().getId(),
+//                comment.getMember().getName(),
+//                comment.getPost().getId(),
+//                comment.getContent(),
+//                comment.getCreatedAt(),
+//                new ArrayList<>() // 대댓글 업데이트 로직은 별도로 구현
+//        );
+//    }
+//
+//
+//    public CommentResponseDTO getComment(Long commentId) {}
+//
+//    public CommentResponseDTO getCommentsByPostId(Long postId) {}
+//
+//    public CommentResponseDTO getCommentsByPostId(Long postId) {}
 //
 //}

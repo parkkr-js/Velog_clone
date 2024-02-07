@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthDTO {
+    private Long memberId;
     private String name;
     private String email;
     private String profileImgUrl;

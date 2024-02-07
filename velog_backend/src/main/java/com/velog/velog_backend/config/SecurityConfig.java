@@ -79,6 +79,8 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/posts/**", "/users/validation")
                                         .permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/api/post/articles")
+                                        .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/major", "/keyword")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/favicon.ico")
@@ -86,6 +88,8 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.GET, "/nickname")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/userinfo")
+                                        .permitAll()
+                                        .requestMatchers(HttpMethod.POST, "/api/logout")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated())
@@ -105,7 +109,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(client));
-        config.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE"));
+        config.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "PATCH", "DELETE"));
         config.setAllowedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE));
         config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -120,7 +124,7 @@ public class SecurityConfig {
 
     private AuthenticationEntryPoint oAuth2AuthenticationEntryPoint() {
         return (request, response, authException) -> {
-            // 로그에 에러 메시지와 스택 트레이스를 기록
+            // 로그에 에러 메시지와 스택 트레이스
             //401 에러 해결: url문제였음
             log.error("Authentication error: " + authException.getMessage());
             log.error("Stack Trace: ", authException);

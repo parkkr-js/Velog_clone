@@ -40,16 +40,8 @@ public class Comment extends Timestamped {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private List<Comment> children = new ArrayList<>();
 
-    public void update(CommentRequestDTO commentRequestDto) {
-        this.content = commentRequestDto.getContent();
+    public void updateContent(String content) {
+        this.content = content;
     }
 
-    // 부모 댓글 수정
-    public void updateParent(Comment parent){
-        this.parent = parent;
-    }
-
-    public boolean validateMember(Member member) {
-        return !this.member.equals(member);
-    }
 }

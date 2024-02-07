@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MemberMinimalDTO {
-    private Long id;
-    private String name;
+    private Long memberId;
     private String nickname;
+    private String profileImage;
 }

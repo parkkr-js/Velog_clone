@@ -28,6 +28,10 @@ public class MemberService {
 //        return "Member deleted";
 //    }
 
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow();
+    }
+
 
     public boolean isPresent(String nickname) {
         Optional<Member> member = memberRepository.findByNickname(nickname);

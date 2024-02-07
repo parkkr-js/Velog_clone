@@ -17,6 +17,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByNickname(String nickname);
 
 
-    @Query("SELECT new com.velog.velog_backend.member.dto.response.MemberMinimalDTO(u.id, u.email, u.nickname) FROM Member u WHERE u.id = :memberId")
+    @Query("SELECT new com.velog.velog_backend.member.dto.response.MemberMinimalDTO(u.id, u.nickname, u.pictureUrl) FROM Member u WHERE u.id = :memberId")
     MemberMinimalDTO findMinimalMemberDetailsById(Long memberId);
 }
