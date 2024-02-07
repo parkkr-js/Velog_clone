@@ -6,7 +6,7 @@ import theme from "../../styles/theme";
 const LoginBtn: React.FC = () => {
   // Google OAuth2 로그인 페이지로 리디렉션ㄱㄱ
   const handleLogin = () => {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = 'https://velog-clone.store/oauth2/authorization/google';
   };
 
   return (
