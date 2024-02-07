@@ -14,7 +14,6 @@ import { useState, useEffect, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 const MarkdownEditor = () => {
   const API = process.env.REACT_APP_API_URL;

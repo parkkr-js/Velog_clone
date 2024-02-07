@@ -12,6 +12,7 @@ export const MyVelogCardList: React.FC = () => {
   const API = process.env.REACT_APP_API_URL;
   const user = useRecoilValue(userState);
   const [cards, setCards] = useState<Card[]>([]);
+
   const formatDate = (dateString: string) => {
     const [datePart] = dateString.split("T");
     const parts = datePart.split("-");
@@ -24,32 +25,38 @@ export const MyVelogCardList: React.FC = () => {
     }
     return dateString;
   };
+  
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const response = await axios.get(`${API}/api/post/articles/member/${user.memberId}`, {
-          withCredentials: true 
-        });
-       
-        setCards(response.data.map((item: any) => ({
-          id: item.postId,
-          title: item.title,
-          author: item.member.nickname,
-          content: item.content,
-          date: formatDate(item.modifiedAt),
-          commentCount: item.commentCount, 
-          likeCount: item.likeCount,
-          profileImageUrl: item.member.profileImage,
-          imageUrl: item.thumbnail,
-          tags: item.tagList,
-        })));
+        const response = await axios.get(
+          `${API}/api/post/articles/member/${user.memberId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        setCards(
+          response.data.map((item: any) => ({
+            id: item.postId,
+            title: item.title,
+            author: item.member.nickname,
+            content: item.content,
+            date: formatDate(item.modifiedAt),
+            commentCount: item.commentCount,
+            likeCount: item.likeCount,
+            profileImageUrl: item.member.profileImage,
+            imageUrl: item.thumbnail,
+            tags: item.tagList,
+          }))
+        );
       } catch (error) {
-        console.error('데이터를 가져오는데 실패했습니다.', error);
+        console.error("데이터를 가져오는데 실패했습니다.", error);
       }
     };
 
     fetchCards();
-  }, [user.memberId]); 
+  }, [user.memberId]);
 
   return (
     <Div>
@@ -59,7 +66,6 @@ export const MyVelogCardList: React.FC = () => {
     </Div>
   );
 };
-
 
 const Div = styled.div`
   display: flex;
