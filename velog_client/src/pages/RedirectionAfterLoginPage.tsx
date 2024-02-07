@@ -4,7 +4,7 @@ import styled, { keyframes } from "styled-components";
 import theme from "../styles/theme";
 import { userState } from "../state/atoms/userState";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Axios 라이브러리를 임포트합니다.
+import axios from "axios";
 
 const RedirectionAfterLoginPage: FC = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -31,7 +31,7 @@ const RedirectionAfterLoginPage: FC = () => {
     );
   }
 
-  // 나머지 컴포넌트 구현...
+  return <Div></Div>;
 };
 
 export default RedirectionAfterLoginPage;
