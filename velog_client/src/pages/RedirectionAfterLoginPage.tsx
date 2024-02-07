@@ -37,7 +37,7 @@ const RedirectionAfterLoginPage: FC = () => {
     );
   }
 
-  return <></>;
+
 };
 
 export default RedirectionAfterLoginPage;
