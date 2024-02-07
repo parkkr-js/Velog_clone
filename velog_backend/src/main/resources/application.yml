@@ -5,4 +5,5 @@ spring:
     - jwt
   web:
     cors:
-      allowed-origins: https://velog-clone-ruby.vercel.app/
+       allowed-origins: https://velog-clone-ruby.vercel.app
+      #      allowed-origins: http://localhost:3000
