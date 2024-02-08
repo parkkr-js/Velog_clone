@@ -37,6 +37,7 @@ public class Post extends Timestamped {
     private String thumbnail;
 
     @ElementCollection
+    @Builder.Default
     @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "post_id"))
     private List<String> tagList = new ArrayList<>();
 

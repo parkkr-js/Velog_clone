@@ -1,7 +1,5 @@
 package com.velog.velog_backend.config;
 
-import com.velog.velog_backend.jwt.JwtAuthorizationFilter;
-import com.velog.velog_backend.jwt.JwtService;
 import com.velog.velog_backend.member.domain.Member;
 import com.velog.velog_backend.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletResponse;
@@ -52,7 +50,6 @@ import java.util.Optional;
 public class SecurityConfig {
 
     private final MemberRepository memberRepository;
-    private final JwtService jwtService;
 
     @Value("${spring.web.cors.allowed-origins}")
     private String client;
@@ -117,10 +114,6 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtService);
-    }
 
     private AuthenticationEntryPoint oAuth2AuthenticationEntryPoint() {
         return (request, response, authException) -> {
