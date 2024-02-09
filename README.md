@@ -119,14 +119,14 @@
 - **무한 스크롤링**: `Pageable`과 react-intersection-observer를 사용하여 구현.
   <img width="1465" alt="스크린샷 2024-02-09 오후 4 52 10" src="https://github.com/Park21700305/Velog_clone/assets/93187535/4f72b76e-883a-4ad9-b7e7-e3ae79067a9d">
 
-- **인증 및 인가**: Spring Security & OAuth를 이용한 강력한 보안.
+- **인증 및 인가**: Spring Security & OAuth를 이용한 세션기반 인증&인가.
   <img width="825" alt="스크린샷 2024-02-09 오후 4 53 18" src="https://github.com/Park21700305/Velog_clone/assets/93187535/1578c167-a824-47d6-b0d9-5c0b004874c0">
 
 - **마크다운 작성 및 미리보기**: Toast UI를 활용, 다크 모드 지원.
   <img width="1470" alt="스크린샷 2024-02-09 오후 4 54 31" src="https://github.com/Park21700305/Velog_clone/assets/93187535/1bf5a7f1-2ba9-4a5b-8831-b90abd4d2ce5">
   <img width="1091" alt="스크린샷 2024-02-09 오후 4 54 51" src="https://github.com/Park21700305/Velog_clone/assets/93187535/940260c1-de04-4a39-a3d5-ebaba06007e8">
 
-- **실시간 이미지 업로드**: 마크다운 편집 중 AWS S3를 통해 쉽게 진행.
+- **실시간 이미지 업로드**: 마크다운 편집 중 AWS S3를 통해 이미지 업로드 진행.
   
 - **자동 시간 관리**: 생성 및 수정 시간을 자동으로 관리하는 `Timestamped` 클래스 활용.
 
