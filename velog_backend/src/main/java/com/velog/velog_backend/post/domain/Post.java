@@ -2,7 +2,6 @@ package com.velog.velog_backend.post.domain;
 
 import com.velog.velog_backend.comment.domain.Comment;
 import com.velog.velog_backend.common.Timestamped;
-//import com.velog.velog_backend.post.dto.request.PostRequestDTO;
 import com.velog.velog_backend.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
